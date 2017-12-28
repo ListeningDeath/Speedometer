@@ -7,10 +7,7 @@ SerialPortHelper::SerialPortHelper(QSerialPortInfo &info)
 
 SerialPortHelper::~SerialPortHelper()
 {
-    handle.~QSerialPort();
-    delete &handle;
-    info.~QSerialPortInfo();
-    delete &info;
+
 }
 
 bool SerialPortHelper::isConnected()
@@ -81,6 +78,6 @@ void SerialPortHelper::send(QString& message)
 void SerialPortHelper::on_message_received()
 {
     QByteArray array = handle.readAll();
-    QString message = QString(array);
-    emit receiveMessage();
+    QString message = array;
+    emit receiveMessage(message);
 }

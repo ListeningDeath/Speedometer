@@ -33,7 +33,7 @@ private:
     QSerialPort::FlowControl flowControl;
 
 signals:
-    void receiveMessage();
+    void receiveMessage(QString&);
 
 private slots:
     void on_message_received();

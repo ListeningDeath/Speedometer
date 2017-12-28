@@ -20,8 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     initCombobox();
     changeState(false);
-    //绑定数据接收槽
-    QObject::connect(spHelper, SIGNAL(receiveMessage()), this, SLOT(on_message_received(QString&)));
 }
 
 MainWindow::~MainWindow()
@@ -92,20 +90,23 @@ void MainWindow::on_btnSerialPortConnect_clicked()
         spHelper->setParity(QSerialPort::Parity(ui->cbSerialPortParity->currentData().toInt()));
         spHelper->setFlowControl(QSerialPort::FlowControl(ui->cbSerialPortFlowControl->currentData().toInt()));
         spHelper->open();
+        //绑定数据接收槽
+        QObject::connect(spHelper, SIGNAL(receiveMessage(QString&)), this, SLOT(on_message_received(QString&)));
         changeState(true);
     }
     else
     {
         spHelper->close();
-        spHelper->~SerialPortHelper();
         delete spHelper;
+        spHelper = nullptr;
         changeState(false);
+        return;
     }
     if(spHelper != nullptr && !spHelper->isConnected())
     {
         spHelper->close();
-        spHelper->~SerialPortHelper();
         delete spHelper;
+        spHelper = nullptr;
         changeState(false);
     }
 }
@@ -119,7 +120,7 @@ void MainWindow::on_btnMessageSend_clicked()
 {
     QString message = ui->txtMessageSend->text();
     spHelper->send(message);
-    ui->txtMessageReceived->clear();
+    ui->txtMessageSend->clear();
 }
 
 void MainWindow::on_btnMessageEmpty_clicked()
