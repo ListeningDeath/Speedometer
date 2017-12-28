@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMessageBox>
+#include <QDebug>
 
 Q_DECLARE_METATYPE(QSerialPortInfo)
 
@@ -18,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
         var.setValue(info);
         ui->cbSerialPortName->addItem(info.portName(), var);
     }
+
+    //初始化
+    spHelper = nullptr;
     initCombobox();
     changeState(false);
 }
@@ -52,11 +57,13 @@ void MainWindow::initCombobox()
     ui->cbSerialPortBaudRate->addItem(QString("38400"), QSerialPort::Baud38400);
     ui->cbSerialPortBaudRate->addItem(QString("57600"), QSerialPort::Baud57600);
     ui->cbSerialPortBaudRate->addItem(QString("115200"), QSerialPort::Baud115200);
+    ui->cbSerialPortBaudRate->setCurrentText("2400");
 
     ui->cbSerialPortDataBits->addItem(QString("5"), QSerialPort::Data5);
     ui->cbSerialPortDataBits->addItem(QString("6"), QSerialPort::Data6);
     ui->cbSerialPortDataBits->addItem(QString("7"), QSerialPort::Data7);
     ui->cbSerialPortDataBits->addItem(QString("8"), QSerialPort::Data8);
+    ui->cbSerialPortDataBits->setCurrentText("8");
 
     ui->cbSerialPortStopBits->addItem(QString("1"), QSerialPort::OneStop);
     ui->cbSerialPortStopBits->addItem(QString("1.5"), QSerialPort::OneAndHalfStop);
@@ -79,6 +86,7 @@ void MainWindow::on_btnSerialPortConnect_clicked()
     {
         if(ui->cbSerialPortName->currentIndex() == -1)
         {
+            QMessageBox::critical(NULL, "错误", "未选择任何串口");
             return;
         }
         //打开串口
