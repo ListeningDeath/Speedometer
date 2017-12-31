@@ -1,3 +1,4 @@
+#define READ_BUFFER_SIZE    2 * 1024
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
@@ -91,7 +92,8 @@ void MainWindow::on_btnSerialPortConnect_clicked()
         }
         //打开串口
         QSerialPortInfo info = ui->cbSerialPortName->currentData().value<QSerialPortInfo>();
-        spHelper = new SerialPortHelper(info);
+        spHelper = new SerialPortHelper(info, this);
+        spHelper->setReadBufferSize(READ_BUFFER_SIZE);
         spHelper->setBaudRate(QSerialPort::BaudRate(ui->cbSerialPortBaudRate->currentData().toInt()));
         spHelper->setDataBits(QSerialPort::DataBits(ui->cbSerialPortDataBits->currentData().toInt()));
         spHelper->setStopBits(QSerialPort::StopBits(ui->cbSerialPortStopBits->currentData().toInt()));
@@ -100,6 +102,7 @@ void MainWindow::on_btnSerialPortConnect_clicked()
         spHelper->open();
         //绑定数据接收槽
         QObject::connect(spHelper, SIGNAL(receiveMessage(QString&)), this, SLOT(on_message_received(QString&)));
+        QObject::connect(spHelper, SIGNAL(receiveGroup(FrameGroup&)), this, SLOT(dataFrameReceived(FrameGroup&)));
         changeState(true);
     }
     else
@@ -121,7 +124,12 @@ void MainWindow::on_btnSerialPortConnect_clicked()
 
 void MainWindow::on_message_received(QString &message)
 {
-    ui->txtMessageReceived->append(message);
+    ui->txtMessageReceived->append(message);    // 仅调试使用
+}
+
+void MainWindow::dataFrameReceived(Protocol &data)
+{
+
 }
 
 void MainWindow::on_btnMessageSend_clicked()

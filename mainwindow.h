@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QSerialPortInfo>
-#include "SerialPortHelper.h"
+#include "serial_port_helper.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +26,7 @@ private:
 
 public slots:
     void on_message_received(QString&);
+    void dataFrameReceived(Protocol&);
 
 private slots:
     void on_btnSerialPortConnect_clicked();

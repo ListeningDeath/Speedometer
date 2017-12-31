@@ -1,0 +1,23 @@
+#include "interaction.h"
+
+Interaction::Interaction(QObject *parent) : Protocol(parent)
+{
+    setType(Protocol::INTERACTION_PROTOCOL);
+    END_LOCATION = PROTOCOL_SIZE - 2;
+    CHECK_LOCATION = 2;
+    CHECK_LENGTH = 40;
+    COMMAND_LOCATION = 2;
+    STATE_LOCATION = 4;
+    SOUND_SPEED_LOCATION = 6;
+    TEMPERATURE_LOCATION = 10;
+    PRESSURE_LOCATION = 14;
+    QUATERNION_1_LOCATION = 18;
+    QUATERNION_2_LOCATION = 22;
+    QUATERNION_3_LOCATION = 26;
+    QUATERNION_4_LOCATION = 30;
+    VERTICAL_SPEED_LOCATION = 34;
+    VOLTAGE_LOCATION = 38;
+    CRC_LOCATION = 42;
+    setStartFrame(START_FRAME);
+    setEndFrame(END_FRAME);
+}
