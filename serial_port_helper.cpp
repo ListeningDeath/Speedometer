@@ -122,7 +122,7 @@ bool SerialPortHelper::readFrameGroup(QSerialPort *handle, QByteArray *buffer)
 {
     bool findHead = false;
     int protocolSize = 0;
-    char endFrame[2];
+    BYTE2 endFrame;
     for(int i = 0; i < 46; i += 2)
     {
         if(!findHead)
@@ -130,20 +130,22 @@ bool SerialPortHelper::readFrameGroup(QSerialPort *handle, QByteArray *buffer)
             // 查寻起始帧，每次读取2个字节
             char frame[2];
             handle->read(frame, 2);
-            if(qstrcmp((char*)Interaction::START_FRAME, frame) == 0)
+            // 构建BYTE2
+            BYTE2 frameByte = (BYTE2)(frame[0] | (frame[1] << 8));
+            if(Interaction::START_FRAME == frameByte)
             {
                 findHead = true;
                 protocolSize = Interaction::PROTOCOL_SIZE;
-                qstrcpy(endFrame, frame);
-                buffer->append(frame);
+                endFrame = Interaction::END_FRAME;
+                buffer->append(frame, 2);
                 continue;
             }
-            else if(qstrcmp((char*)Information::START_FRAME, frame) == 0)
+            else if(Information::START_FRAME == frameByte)
             {
                 findHead = true;
                 protocolSize = Information::PROTOCOL_SIZE;
-                qstrcpy(endFrame, frame);
-                buffer->append(frame);
+                endFrame = Information::END_FRAME;
+                buffer->append(frame, 2);
                 continue;
             }
         }
@@ -152,14 +154,15 @@ bool SerialPortHelper::readFrameGroup(QSerialPort *handle, QByteArray *buffer)
             // 读取非起始/结束帧协议
             char *frame = (char*)malloc(protocolSize - 4);
             handle->read(frame, protocolSize - 4);
-            buffer->append(frame);
+            buffer->append(frame, protocolSize - 4);
             free(frame);
             // 读取结束帧
             char readEndFrame[2];
             handle->read(readEndFrame, 2);
-            buffer->append(readEndFrame);
-            return qstrcmp(endFrame, readEndFrame) == 0;
+            buffer->append(readEndFrame, 2);
+            return (BYTE2)(readEndFrame[0] | (readEndFrame[1] << 8)) == endFrame;
         }
     }
     return false;
 }
+
