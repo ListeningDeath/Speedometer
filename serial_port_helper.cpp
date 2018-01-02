@@ -88,9 +88,9 @@ void SerialPortHelper::send(QString &message)
 
 void SerialPortHelper::on_message_received()
 {
-    QByteArray array = handle.readAll();
-    QString message = array;
-    emit receiveMessage(message);
+//    QByteArray array = handle.readAll();
+//    QString message = array;
+//    emit receiveMessage(message);
     QByteArray buffer;
     if(!readFrameGroup(&handle, &buffer))
     {
@@ -103,7 +103,7 @@ void SerialPortHelper::on_message_received()
         // 校验CRC
         if(data.CheckCRC())
         {
-            emit receiveGroup(data);
+            emit protocolReady(data);
         }
     }
     else if(buffer.size() == Information::PROTOCOL_SIZE)
@@ -113,7 +113,7 @@ void SerialPortHelper::on_message_received()
         // 校验CRC
         if(data.CheckCRC())
         {
-            emit receiveGroup(data);
+            emit protocolReady(data);
         }
     }
 }
@@ -128,16 +128,16 @@ bool SerialPortHelper::readFrameGroup(QSerialPort *handle, QByteArray *buffer)
         if(!findHead)
         {
             // 查寻起始帧，每次读取2个字节
-            char frame[2];
-            handle->read(frame, 2);
+            QByteArray frame;
+            frame = handle->read(2);
             // 构建BYTE2
-            BYTE2 frameByte = (BYTE2)(frame[0] | (frame[1] << 8));
+            BYTE2 frameByte = (BYTE2)((frame[0] & 0xFF) | (frame[1] << 8));
             if(Interaction::START_FRAME == frameByte)
             {
                 findHead = true;
                 protocolSize = Interaction::PROTOCOL_SIZE;
                 endFrame = Interaction::END_FRAME;
-                buffer->append(frame, 2);
+                buffer->append(frame);
                 continue;
             }
             else if(Information::START_FRAME == frameByte)
@@ -145,22 +145,22 @@ bool SerialPortHelper::readFrameGroup(QSerialPort *handle, QByteArray *buffer)
                 findHead = true;
                 protocolSize = Information::PROTOCOL_SIZE;
                 endFrame = Information::END_FRAME;
-                buffer->append(frame, 2);
+                buffer->append(frame);
                 continue;
             }
         }
         else
         {
             // 读取非起始/结束帧协议
-            char *frame = (char*)malloc(protocolSize - 4);
-            handle->read(frame, protocolSize - 4);
-            buffer->append(frame, protocolSize - 4);
-            free(frame);
+            QByteArray frame;
+            frame = handle->read(protocolSize - 4);
+            buffer->append(frame);
             // 读取结束帧
-            char readEndFrame[2];
-            handle->read(readEndFrame, 2);
-            buffer->append(readEndFrame, 2);
-            return (BYTE2)(readEndFrame[0] | (readEndFrame[1] << 8)) == endFrame;
+            QByteArray readEndFrame;
+            readEndFrame = handle->read(2);
+            buffer->append(readEndFrame);
+            BYTE2 readEndFrameByte = (BYTE2)((readEndFrame[0] & 0xFF) | (readEndFrame[1] << 8));
+            return readEndFrameByte == endFrame;
         }
     }
     return false;

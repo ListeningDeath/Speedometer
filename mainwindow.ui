@@ -20,7 +20,7 @@
       <x>10</x>
       <y>10</y>
       <width>211</width>
-      <height>261</height>
+      <height>221</height>
      </rect>
     </property>
     <property name="title">
@@ -139,32 +139,6 @@
      </property>
      <property name="text">
       <string>奇偶校验</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnSerialPortConnect">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>230</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>连接(&amp;C)</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lblSerialPortState">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>230</y>
-       <width>71</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Status</string>
      </property>
     </widget>
     <widget class="QLabel" name="lblSerialPortFlowControl">
@@ -364,7 +338,7 @@
       <string>姿态四元数4</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="txtVertSpeed">
+    <widget class="QLineEdit" name="txtCaliVertSpeed">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -400,7 +374,7 @@
       <string>基准电压</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="txtHoriSpeed">
+    <widget class="QLineEdit" name="txtCaliVoltage">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -449,81 +423,6 @@
     <property name="title">
      <string>数据采集</string>
     </property>
-    <widget class="QGroupBox" name="gbChart">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>9</y>
-       <width>731</width>
-       <height>521</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string/>
-     </property>
-     <widget class="QGroupBox" name="gbMessage">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>450</y>
-        <width>711</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>消息</string>
-      </property>
-      <widget class="QLineEdit" name="txtMessageSend">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>511</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="btnMessageSend">
-       <property name="geometry">
-        <rect>
-         <x>530</x>
-         <y>30</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>发送(&amp;S)</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="btnMessageEmpty">
-       <property name="geometry">
-        <rect>
-         <x>620</x>
-         <y>30</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>清空(&amp;E)</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QTextEdit" name="txtMessageReceived">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>711</width>
-        <height>421</height>
-       </rect>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </widget>
     <widget class="QGroupBox" name="gbCurData">
      <property name="geometry">
       <rect>
@@ -544,6 +443,9 @@
         <width>101</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="lblDataSoundSpeed">
@@ -568,6 +470,9 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QLabel" name="lblDataTemperature">
       <property name="geometry">
@@ -590,6 +495,9 @@
         <width>101</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="lblDataPressure">
@@ -614,6 +522,9 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QLabel" name="lblDataQuat1">
       <property name="geometry">
@@ -636,6 +547,9 @@
         <width>101</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="lblDataQuat2">
@@ -660,6 +574,9 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QLabel" name="lblDataQuat3">
       <property name="geometry">
@@ -682,6 +599,9 @@
         <width>101</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="lblDataQuat4">
@@ -706,6 +626,9 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QLabel" name="lblDataVertSpeed">
       <property name="geometry">
@@ -721,10 +644,54 @@
       </property>
      </widget>
     </widget>
+    <widget class="QChartView" name="chart" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>731</width>
+       <height>491</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="btnSerialPortConnect">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>250</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>连接(&amp;C)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblSerialPortState">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>250</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Status</string>
+    </property>
    </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QWidget</extends>
+   <header location="global">qchartview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

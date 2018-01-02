@@ -13,7 +13,6 @@ class Protocol : public QObject
     Q_OBJECT
 protected:
     explicit Protocol(QObject *parent = nullptr);
-    BYTE getByte(int) const;
     static BYTE2 CRC16_XMODEM(BYTE*, BYTE4);
     void setType(int);
 
@@ -51,25 +50,25 @@ public:
     BYTE2 getCommandFrame() const;
     void setStateFrame(BYTE2);
     BYTE2 getStateFrame() const;
-    void setSoundSpeedFrame(BYTE4);
-    BYTE4 getSoundSpeedFrame() const;
-    void setTemperatureFrame(BYTE4);
-    BYTE4 getTemperatureFrame() const;
-    void setPressureFrame(BYTE4);
-    BYTE4 getPressureFrame() const;
-    void setQuat1Frame(BYTE4);
-    BYTE4 getQuat1Frame() const;
-    void setQuat2Frame(BYTE4);
-    BYTE4 getQuat2Frame() const;
-    void setQuat3Frame(BYTE4);
-    BYTE4 getQuat3Frame() const;
-    void setQuat4Frame(BYTE4);
-    BYTE4 getQuat4Frame() const;
-    void setVerticalSpeedFrame(BYTE4);
-    BYTE4 getVerticalSpeedFrame() const;
-    void setVoltageFrame(BYTE4);
-    BYTE4 getVoltageFrame() const;
-    void setCRCFrame(BYTE2);
+    void setSoundSpeedFrame(float);
+    float getSoundSpeedFrame() const;
+    void setTemperatureFrame(float);
+    float getTemperatureFrame() const;
+    void setPressureFrame(float);
+    float getPressureFrame() const;
+    void setQuat1Frame(float);
+    float getQuat1Frame() const;
+    void setQuat2Frame(float);
+    float getQuat2Frame() const;
+    void setQuat3Frame(float);
+    float getQuat3Frame() const;
+    void setQuat4Frame(float);
+    float getQuat4Frame() const;
+    void setVerticalSpeedFrame(float);
+    float getVerticalSpeedFrame() const;
+    void setVoltageFrame(float);
+    float getVoltageFrame() const;
+    void setCRCFrame(BYTE2 value = 0);
     BYTE2 getCRCFrame() const;
     void setEndFrame(BYTE2);
     BYTE2 getEndFrame() const;
@@ -78,6 +77,14 @@ public:
 private:
     QByteArray protocolData;
     int protocolType;
+    void setByte(int, BYTE);
+    BYTE getByte(int) const;
+    void setByte2(int, BYTE2);
+    BYTE2 getByte2(int) const;
+    void setByte4(int, BYTE4);
+    BYTE4 getByte4(int) const;
+    void setFloat4(int, float);
+    float getFloat4(int) const;
 };
 
 #endif // PROTOCOL_H

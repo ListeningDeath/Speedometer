@@ -41,7 +41,7 @@ private:
 
 signals:
     void receiveMessage(QString&);
-    void receiveGroup(Protocol&);
+    void protocolReady(Protocol&);
 
 private slots:
     void on_message_received();
