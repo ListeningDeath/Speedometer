@@ -42,7 +42,6 @@ public slots:
 
 private slots:
     void on_btnSerialPortConnect_clicked();
-
     void on_btnCaliVerify_clicked();
     void on_btnCaliReset_clicked();
 };

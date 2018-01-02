@@ -90,14 +90,17 @@ void MainWindow::initChart()
     myLine = new QLineSeries(myChart);
     myChart->addSeries(myLine);
     myChart->legend()->hide();
-//    myChart->createDefaultAxes();
     myChart->setTitle("深度-声速");
+
+    // 坐标轴初始化
     QValueAxis *axisX = new QValueAxis(myChart);
     QValueAxis *axisY = new QValueAxis(myChart);
     axisX->setRange(0, 6000);
     axisX->setTitleText("压力/Pa");
+    axisX->setReverse();
     axisY->setRange(0, 1000);
     axisY->setTitleText("声速/(m/s)");
+
     myChart->addAxis(axisX, Qt::AlignLeft);
     myChart->addAxis(axisY, Qt::AlignTop);
     myLine->attachAxis(axisX);
@@ -106,6 +109,12 @@ void MainWindow::initChart()
     // 初始化QChartView
     ui->chart->setChart(myChart);
     ui->chart->setRenderHint(QPainter::Antialiasing);
+
+    // 测试用样点
+    *myLine << QPointF(300, 2000);
+    *myLine << QPointF(800, 3000);
+    *myLine << QPointF(200, 4000);
+    *myLine << QPointF(800, 5000);
 }
 
 void MainWindow::printCaliText(Protocol &data)
@@ -135,12 +144,9 @@ void MainWindow::printDataText(Protocol &data)
 
 void MainWindow::printPoint(Protocol &data)
 {
-    pointList << QPointF(data.getSoundSpeedFrame(), data.getPressureFrame());
-    pointList << QPointF(2, 3);
-    pointList << QPointF(3, 8);
-    pointList << QPointF(4, 20);
-    pointList << QPointF(5, 80);
-    myLine->replace(pointList);
+    QPointF point(data.getPressureFrame(), data.getSoundSpeedFrame());
+    pointList << point;
+    *myLine << point;
 }
 
 void MainWindow::readCali()
