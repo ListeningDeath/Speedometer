@@ -129,7 +129,14 @@ void MainWindow::on_message_received(QString &message)
 
 void MainWindow::dataFrameReceived(Protocol &data)
 {
-
+    ui->txtDataSoundSpeed->setText(QString::number(data.getSoundSpeedFrame()));
+    ui->txtDataTemperature->setText(QString::number(data.getTemperatureFrame()));
+    ui->txtDataPressure->setText(QString::number(data.getPressureFrame()));
+    ui->txtVertSpeed->setText(QString::number(data.getVerticalSpeedFrame()));
+    ui->txtCaliQuat1->setText(QString::number(data.getQuat1Frame()));
+    ui->txtCaliQuat2->setText(QString::number(data.getQuat2Frame()));
+    ui->txtCaliQuat3->setText(QString::number(data.getQuat3Frame()));
+    ui->txtCaliQuat4->setText(QString::number(data.getQuat4Frame()));
 }
 
 void MainWindow::on_btnMessageSend_clicked()
