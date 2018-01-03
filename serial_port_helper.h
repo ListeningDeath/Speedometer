@@ -1,13 +1,13 @@
 #ifndef SERIALPORTHELP_H
 #define SERIALPORTHELP_H
 
+#include <QDebug>
 #include <QObject>
 #include <QString>
 #include <QSerialPort>
 #include <QSerialPortInfo>
-#include "interaction.h"
-#include "information.h"
-#include <QDebug>
+#include "protocol/interaction.h"
+#include "protocol/information.h"
 
 class SerialPortHelper : public QObject
 {
