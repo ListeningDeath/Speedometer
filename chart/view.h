@@ -31,6 +31,7 @@
 #define VIEW_H
 #include <QtWidgets/QGraphicsView>
 #include <QtCharts/QChartGlobal>
+#include <QtCharts/QLineSeries>
 
 QT_BEGIN_NAMESPACE
 class QGraphicsScene;
@@ -52,6 +53,7 @@ class View: public QGraphicsView
 
 public:
     View(QWidget *parent = 0);
+    QLineSeries *series();
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -59,12 +61,14 @@ protected:
 
 public slots:
     void keepCallout();
+    void removeCallout(Callout *callout);
     void tooltip(QPointF point, bool state);
 
 private:
     QGraphicsSimpleTextItem *m_coordX;
     QGraphicsSimpleTextItem *m_coordY;
     QChart *m_chart;
+    QLineSeries *m_series;
     Callout *m_tooltip;
     QList<Callout *> m_callouts;
 };

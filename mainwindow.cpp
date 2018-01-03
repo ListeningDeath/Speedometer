@@ -78,12 +78,12 @@ void MainWindow::initCombobox()
 
 void MainWindow::initChart()
 {
-//    for(float i = 0.0f; i < 50.0f; i++)
-//    {
-//        float j = i * i;
-//        myLine<<QPointF(i, j);
-//    }
-
+    // 测试用样点
+    *ui->chartView->series() << QPointF(300, 2000);
+    *ui->chartView->series() << QPointF(800, 3000);
+    *ui->chartView->series() << QPointF(200, 4000);
+    *ui->chartView->series() << QPointF(800, 5000);
+    /*
     // 初始化QChart
     myChart = new QChart();
     // 初始化SerisLine
@@ -109,12 +109,7 @@ void MainWindow::initChart()
     // 初始化QChartView
     ui->chart->setChart(myChart);
     ui->chart->setRenderHint(QPainter::Antialiasing);
-
-    // 测试用样点
-    *myLine << QPointF(300, 2000);
-    *myLine << QPointF(800, 3000);
-    *myLine << QPointF(200, 4000);
-    *myLine << QPointF(800, 5000);
+    * */
 }
 
 void MainWindow::printCaliText(Protocol &data)
@@ -146,7 +141,7 @@ void MainWindow::printPoint(Protocol &data)
 {
     QPointF point(data.getPressureFrame(), data.getSoundSpeedFrame());
     pointList << point;
-    *myLine << point;
+    *ui->chartView->series() << point;
 }
 
 void MainWindow::readCali()

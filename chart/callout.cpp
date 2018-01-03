@@ -35,7 +35,7 @@
 #include <QtCharts/QChart>
 
 Callout::Callout(QChart *chart):
-    QGraphicsItem(chart),
+    QGraphicsObject(chart),
     m_chart(chart)
 {
 }
@@ -102,6 +102,7 @@ void Callout::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 void Callout::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     event->setAccepted(true);
+    emit calloutPressed(this);
 }
 
 void Callout::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

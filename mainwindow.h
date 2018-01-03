@@ -4,11 +4,9 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QSerialPortInfo>
-#include <QtCharts/QtCharts>
 #include <QList>
+#include "chart/view.h"
 #include "serial_port_helper.h"
-
-QT_CHARTS_USE_NAMESPACE
 
 namespace Ui {
 class MainWindow;
@@ -25,8 +23,8 @@ public:
 private:
     Ui::MainWindow *ui;
     SerialPortHelper *spHelper;
-    QChart *myChart;
-    QLineSeries *myLine;
+//    QChart *myChart;
+//    QLineSeries *myLine;
     QList<QPointF> pointList;
     void changeState(bool);
     void initCombobox();

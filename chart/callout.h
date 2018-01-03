@@ -30,9 +30,11 @@
 #ifndef CALLOUT_H
 #define CALLOUT_H
 
+#include <QObject>
 #include <QtCharts/QChartGlobal>
 #include <QtWidgets/QGraphicsItem>
 #include <QtGui/QFont>
+#include <functional>
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
@@ -44,8 +46,10 @@ QT_CHARTS_END_NAMESPACE
 
 QT_CHARTS_USE_NAMESPACE
 
-class Callout : public QGraphicsItem
+class Callout : public QGraphicsObject
 {
+    Q_OBJECT
+
 public:
     Callout(QChart *parent);
 
@@ -55,6 +59,7 @@ public:
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget);
+    void setDeleteSelfFun(void* fun);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -67,6 +72,9 @@ private:
     QPointF m_anchor;
     QFont m_font;
     QChart *m_chart;
+
+signals:
+    void calloutPressed(Callout*);
 };
 
 #endif // CALLOUT_H

@@ -644,12 +644,12 @@
       </property>
      </widget>
     </widget>
-    <widget class="QChartView" name="chart" native="true">
+    <widget class="View" name="chartView">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>731</width>
+       <x>15</x>
+       <y>21</y>
+       <width>721</width>
        <height>491</height>
       </rect>
      </property>
@@ -686,10 +686,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QChartView</class>
-   <extends>QWidget</extends>
-   <header location="global">qchartview.h</header>
-   <container>1</container>
+   <class>View</class>
+   <extends>QGraphicsView</extends>
+   <header>chart/view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
