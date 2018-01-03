@@ -38,6 +38,7 @@ Callout::Callout(QChart *chart):
     QGraphicsObject(chart),
     m_chart(chart)
 {
+    hide();
 }
 
 QRectF Callout::boundingRect() const
@@ -53,6 +54,7 @@ QRectF Callout::boundingRect() const
 
 void Callout::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    show();
     Q_UNUSED(option)
     Q_UNUSED(widget)
     QPainterPath path;
@@ -102,7 +104,9 @@ void Callout::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 void Callout::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     event->setAccepted(true);
-    emit calloutPressed(this);
+    if (event->buttons() & Qt::RightButton){
+        emit calloutPressed(this);
+    }
 }
 
 void Callout::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

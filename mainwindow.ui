@@ -664,9 +664,9 @@
     <widget class="View" name="chartView">
      <property name="geometry">
       <rect>
-       <x>15</x>
+       <x>5</x>
        <y>21</y>
-       <width>721</width>
+       <width>741</width>
        <height>491</height>
       </rect>
      </property>
