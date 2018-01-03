@@ -97,8 +97,8 @@ void View::resizeEvent(QResizeEvent *event)
     if (scene()) {
         scene()->setSceneRect(QRect(QPoint(0, 0), event->size()));
          m_chart->resize(event->size());
-         m_coordX->setPos(m_chart->size().width()/2 - 50, m_chart->size().height() - 20);
-         m_coordY->setPos(m_chart->size().width()/2 + 50, m_chart->size().height() - 20);
+         m_coordX->setPos(20, 20);
+         m_coordY->setPos(150, 20);
          const auto callouts = m_callouts;
          for (Callout *callout : callouts)
              callout->updateGeometry();
@@ -108,8 +108,8 @@ void View::resizeEvent(QResizeEvent *event)
 
 void View::mouseMoveEvent(QMouseEvent *event)
 {
-    m_coordX->setText(QString("声速: %1").arg(m_chart->mapToValue(event->pos()).x()));
-    m_coordY->setText(QString("深度: %1").arg(m_chart->mapToValue(event->pos()).y()));
+    m_coordX->setText(QString("声速: %1 m/s").arg(m_chart->mapToValue(event->pos()).x()));
+    m_coordY->setText(QString("深度: %1 m").arg(m_chart->mapToValue(event->pos()).y()));
     QGraphicsView::mouseMoveEvent(event);
 }
 
@@ -132,7 +132,7 @@ void View::tooltip(QPointF point, bool state)
         m_tooltip = new Callout(m_chart);
 
     if (state) {
-        m_tooltip->setText(QString("声速: %1 \n深度: %2 ").arg(point.x()).arg(point.y()));
+        m_tooltip->setText(QString("声速: %1 m/s \n深度: %2 m").arg(point.x()).arg(point.y()));
         m_tooltip->setAnchor(point);
         m_tooltip->setZValue(11);
         m_tooltip->updateGeometry();

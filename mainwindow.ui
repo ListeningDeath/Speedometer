@@ -33,7 +33,7 @@
     <widget class="QComboBox" name="cbSerialPortName">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>30</y>
        <width>111</width>
        <height>22</height>
@@ -43,7 +43,7 @@
     <widget class="QLabel" name="lblSerialPortName">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>30</y>
        <width>51</width>
        <height>16</height>
@@ -56,7 +56,7 @@
     <widget class="QComboBox" name="cbSerialPortBaudRate">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>60</y>
        <width>111</width>
        <height>22</height>
@@ -66,7 +66,7 @@
     <widget class="QLabel" name="lblSerialPortBaudRate">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>60</y>
        <width>51</width>
        <height>16</height>
@@ -79,7 +79,7 @@
     <widget class="QComboBox" name="cbSerialPortDataBits">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>90</y>
        <width>111</width>
        <height>22</height>
@@ -89,7 +89,7 @@
     <widget class="QLabel" name="lblSerialPortDataBit">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>90</y>
        <width>51</width>
        <height>16</height>
@@ -102,7 +102,7 @@
     <widget class="QComboBox" name="cbSerialPortStopBits">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>120</y>
        <width>111</width>
        <height>22</height>
@@ -112,7 +112,7 @@
     <widget class="QLabel" name="lblSerialPortStopBit">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>120</y>
        <width>51</width>
        <height>16</height>
@@ -125,7 +125,7 @@
     <widget class="QComboBox" name="cbSerialPortParity">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>150</y>
        <width>111</width>
        <height>22</height>
@@ -135,7 +135,7 @@
     <widget class="QLabel" name="lblSerialPortCheck">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>150</y>
        <width>51</width>
        <height>16</height>
@@ -148,7 +148,7 @@
     <widget class="QLabel" name="lblSerialPortFlowControl">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>180</y>
        <width>51</width>
        <height>16</height>
@@ -161,7 +161,7 @@
     <widget class="QComboBox" name="cbSerialPortFlowControl">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>180</y>
        <width>111</width>
        <height>22</height>
@@ -792,7 +792,7 @@
    <widget class="QPushButton" name="btnSerialPortConnect">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>130</x>
       <y>250</y>
       <width>91</width>
       <height>21</height>
@@ -805,7 +805,7 @@
    <widget class="QLabel" name="lblSerialPortState">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>250</y>
       <width>71</width>
       <height>16</height>
