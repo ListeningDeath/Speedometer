@@ -245,3 +245,8 @@ void MainWindow::on_btnCaliReset_clicked()
 {
     writeCali(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 }
+
+void MainWindow::on_btnCaliRefresh_clicked()
+{
+    readCali();
+}
