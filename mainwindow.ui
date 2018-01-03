@@ -184,7 +184,7 @@
     <widget class="QLabel" name="lblCaliSoundSpeed">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>30</y>
        <width>31</width>
        <height>16</height>
@@ -197,9 +197,9 @@
     <widget class="QLineEdit" name="txtCaliSoundSpeed">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>30</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -207,9 +207,9 @@
     <widget class="QLineEdit" name="txtCaliTemperature">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>60</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -217,7 +217,7 @@
     <widget class="QLabel" name="lblCaliTemperature">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>60</y>
        <width>31</width>
        <height>16</height>
@@ -230,9 +230,9 @@
     <widget class="QLineEdit" name="txtCaliPressure">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>90</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -240,7 +240,7 @@
     <widget class="QLabel" name="lblCaliPressure">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>90</y>
        <width>31</width>
        <height>16</height>
@@ -253,9 +253,9 @@
     <widget class="QLineEdit" name="txtCaliQuat1">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>120</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -263,7 +263,7 @@
     <widget class="QLabel" name="lblCaliQuat1">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>120</y>
        <width>71</width>
        <height>16</height>
@@ -276,9 +276,9 @@
     <widget class="QLineEdit" name="txtCaliQuat2">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>150</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -286,7 +286,7 @@
     <widget class="QLabel" name="lblCaliQuat2">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>150</y>
        <width>71</width>
        <height>16</height>
@@ -299,9 +299,9 @@
     <widget class="QLineEdit" name="txtCaliQuat3">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>180</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -309,7 +309,7 @@
     <widget class="QLabel" name="lblCaliQuat3">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>180</y>
        <width>71</width>
        <height>16</height>
@@ -322,9 +322,9 @@
     <widget class="QLineEdit" name="txtCaliQuat4">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>210</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -332,7 +332,7 @@
     <widget class="QLabel" name="lblCaliQuat4">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>210</y>
        <width>71</width>
        <height>16</height>
@@ -345,9 +345,9 @@
     <widget class="QLineEdit" name="txtCaliVertSpeed">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>240</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -355,7 +355,7 @@
     <widget class="QLabel" name="lblCaliVertSpeed">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>240</y>
        <width>51</width>
        <height>16</height>
@@ -368,7 +368,7 @@
     <widget class="QLabel" name="lblCaliRefVoltage">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>270</y>
        <width>51</width>
        <height>16</height>
@@ -381,9 +381,9 @@
     <widget class="QLineEdit" name="txtCaliVoltage">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>270</y>
-       <width>111</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -427,6 +427,71 @@
       <string>刷新(&amp;F)</string>
      </property>
     </widget>
+    <widget class="QLabel" name="lblCaliSoundSpeedUnit">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>30</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>m/s</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblCaliTemperatureUnit">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>60</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>℃</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblCaliPressureUnit">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>90</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>K Pa</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblCaliVerticalSpeedUnit">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>240</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>m/s</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblCaliSoundVoltageUnit">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>270</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="gbDataCollection">
     <property name="geometry">
@@ -444,9 +509,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>520</y>
+       <y>530</y>
        <width>731</width>
-       <height>91</height>
+       <height>81</height>
       </rect>
      </property>
      <property name="title">
@@ -456,8 +521,8 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>30</y>
-        <width>101</width>
+        <y>20</y>
+        <width>61</width>
         <height>20</height>
        </rect>
       </property>
@@ -469,7 +534,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>30</y>
+        <y>20</y>
         <width>31</width>
         <height>16</height>
        </rect>
@@ -482,8 +547,8 @@
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>30</y>
-        <width>101</width>
+        <y>20</y>
+        <width>61</width>
         <height>20</height>
        </rect>
       </property>
@@ -495,7 +560,7 @@
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>30</y>
+        <y>20</y>
         <width>31</width>
         <height>16</height>
        </rect>
@@ -508,8 +573,8 @@
       <property name="geometry">
        <rect>
         <x>440</x>
-        <y>30</y>
-        <width>101</width>
+        <y>20</y>
+        <width>61</width>
         <height>20</height>
        </rect>
       </property>
@@ -521,7 +586,7 @@
       <property name="geometry">
        <rect>
         <x>370</x>
-        <y>30</y>
+        <y>20</y>
         <width>31</width>
         <height>16</height>
        </rect>
@@ -534,8 +599,8 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>60</y>
-        <width>101</width>
+        <y>50</y>
+        <width>61</width>
         <height>20</height>
        </rect>
       </property>
@@ -547,7 +612,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>60</y>
+        <y>50</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -560,8 +625,8 @@
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>60</y>
-        <width>101</width>
+        <y>50</y>
+        <width>61</width>
         <height>20</height>
        </rect>
       </property>
@@ -573,7 +638,7 @@
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>60</y>
+        <y>50</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -586,8 +651,8 @@
       <property name="geometry">
        <rect>
         <x>440</x>
-        <y>60</y>
-        <width>101</width>
+        <y>50</y>
+        <width>61</width>
         <height>20</height>
        </rect>
       </property>
@@ -599,7 +664,7 @@
       <property name="geometry">
        <rect>
         <x>370</x>
-        <y>60</y>
+        <y>50</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -612,8 +677,8 @@
       <property name="geometry">
        <rect>
         <x>620</x>
-        <y>60</y>
-        <width>101</width>
+        <y>50</y>
+        <width>61</width>
         <height>20</height>
        </rect>
       </property>
@@ -625,7 +690,7 @@
       <property name="geometry">
        <rect>
         <x>550</x>
-        <y>60</y>
+        <y>50</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -638,8 +703,8 @@
       <property name="geometry">
        <rect>
         <x>620</x>
-        <y>30</y>
-        <width>101</width>
+        <y>20</y>
+        <width>61</width>
         <height>20</height>
        </rect>
       </property>
@@ -651,13 +716,65 @@
       <property name="geometry">
        <rect>
         <x>550</x>
-        <y>30</y>
+        <y>20</y>
         <width>51</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
        <string>垂直速度</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblDataPressureUnit">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>20</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>K Pa</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblDataSoundSpeedUnit">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>20</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>m/s</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblDataTemperatureUnit">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>20</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>℃</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblDataVerticalSpeedUnit">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>20</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>m/s</string>
       </property>
      </widget>
     </widget>
@@ -667,7 +784,7 @@
        <x>5</x>
        <y>21</y>
        <width>741</width>
-       <height>491</height>
+       <height>501</height>
       </rect>
      </property>
     </widget>
