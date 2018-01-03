@@ -79,10 +79,10 @@ void MainWindow::initCombobox()
 void MainWindow::initChart()
 {
     // 测试用样点
-    *ui->chartView->series() << QPointF(300, 2000);
-    *ui->chartView->series() << QPointF(800, 3000);
-    *ui->chartView->series() << QPointF(200, 4000);
-    *ui->chartView->series() << QPointF(800, 5000);
+    *ui->chartView->series() << QPointF(1300, 8000);
+    *ui->chartView->series() << QPointF(1800, 9000);
+    *ui->chartView->series() << QPointF(1200, 14000);
+    *ui->chartView->series() << QPointF(1800, 18000);
     /*
     // 初始化QChart
     myChart = new QChart();

@@ -50,36 +50,18 @@ View::View(QWidget *parent)
 
     // chart
     m_chart = new QChart;
-//    m_chart->setMinimumSize(640, 480);
     m_chart->legend()->hide();
     m_chart->setTitle("深度-声速");
 
     m_series = new QLineSeries(m_chart);
     m_chart->addSeries(m_series);
-//    QLineSeries *series = new QLineSeries;
-//    series->append(1, 3);
-//    series->append(4, 5);
-//    series->append(5, 4.5);
-//    series->append(7, 1);
-//    series->append(11, 2);
-//    m_chart->addSeries(series);
-
-//    QSplineSeries *series2 = new QSplineSeries;
-//    series2->append(1.6, 1.4);
-//    series2->append(2.4, 3.5);
-//    series2->append(3.7, 2.5);
-//    series2->append(7, 4);
-//    series2->append(10, 2);
-//    m_chart->addSeries(series2);
-
-//    m_chart->createDefaultAxes();
     // 坐标轴初始化
     QValueAxis *axisX = new QValueAxis(m_chart);
     QValueAxis *axisY = new QValueAxis(m_chart);
-    axisX->setRange(0, 6000);
+    axisX->setRange(0, 20000);
     axisX->setTitleText("压力/Pa");
     axisX->setReverse();
-    axisY->setRange(0, 1000);
+    axisY->setRange(1000, 2000);
     axisY->setTitleText("声速/(m/s)");
 
     m_chart->addAxis(axisX, Qt::AlignLeft);
