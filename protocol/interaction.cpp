@@ -2,22 +2,22 @@
 
 Interaction::Interaction(QObject *parent) : Protocol(parent)
 {
-    setType(Protocol::INTERACTION_PROTOCOL);
-    END_LOCATION = PROTOCOL_SIZE - 2;
-    CHECK_LOCATION = 2;
-    CHECK_LENGTH = 40;
-    COMMAND_LOCATION = 2;
-    STATE_LOCATION = 4;
-    SOUND_SPEED_LOCATION = 6;
-    TEMPERATURE_LOCATION = 10;
-    PRESSURE_LOCATION = 14;
-    QUATERNION_1_LOCATION = 18;
-    QUATERNION_2_LOCATION = 22;
-    QUATERNION_3_LOCATION = 26;
-    QUATERNION_4_LOCATION = 30;
-    VERTICAL_SPEED_LOCATION = 34;
-    VOLTAGE_LOCATION = 38;
-    CRC_LOCATION = 42;
-    setStartFrame(START_FRAME);
-    setEndFrame(END_FRAME);
+    SetType(Protocol::InteractionProtocol);
+    sn_end_location = ProtocolSize - 2;
+    sn_check_location = 2;
+    sn_check_length = 40;
+    sn_command_location = 2;
+    sn_state_location = 4;
+    sn_sound_speed_location = 6;
+    sn_temperature_location = 10;
+    sn_pressure_location = 14;
+    sn_quaternion_1_location = 18;
+    sn_quaternion_2_location = 22;
+    sn_quaternion_3_location = 26;
+    sn_quaternion_4_location = 30;
+    sn_vertical_speed_location = 34;
+    sn_voltage_location = 38;
+    sn_crc_location = 42;
+    SetStartFrame(StartFrame);
+    SetEndFrame(EndFrame);
 }

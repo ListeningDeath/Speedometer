@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QIntValidator>
 #include <QList>
 #include <QMUtex>
 #include "chart/view.h"
@@ -23,34 +24,34 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QSerialPort *sp;
-    QByteArray receivedBytes;
+    QSerialPort *m_serial_port;
+    QIntValidator *m_intValidator;
+    QByteArray m_receiver;
     QByteArray m_protocol;
-    QMutex receiverMutex;
-//    QChart *myChart;
-//    QLineSeries *myLine;
-    QList<QPointF> pointList;
-    void changeState(bool);
-    void initCombobox();
-    void initChart();
-    void printCaliText(Protocol&);
-    void printDataText(Protocol&);
-    void printPoint(Protocol&);
-    void readCali();
-    void writeCali(float, float, float, float, float, float, float, float, float);
-    void storeBytes();
-    int findFrameOf(bool);
-    void sendProtocol(Protocol*);
+    QList<QPointF> m_points;
+    void SetState(bool);
+    void SerialPortConfigInit();
+    void ChartInit();
+    void PrintCaliText(Protocol*);
+    void PrintDataText(Protocol*);
+    void PrintPoint(Protocol*);
+    void ReadCali();
+    void WriteCali(float, float, float, float, float, float, float, float, float);
+    int FindFrameOf(bool, int*);
+    void ReadProtocol();
+    void SendProtocol(Protocol*);
 
 private slots:
-    void protocolDeal();
+    void ProtocolDeal(int);
     void on_btnSerialPortConnect_clicked();
     void on_btnCaliVerify_clicked();
     void on_btnCaliReset_clicked();
     void on_btnCaliRefresh_clicked();
 
+    void on_cbSerialPortBaudRate_currentIndexChanged(int index);
+
 signals:
-    void getProtocol();
+    void GetProtocol(int);
 };
 
 #endif // MAINWINDOW_H
