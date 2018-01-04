@@ -253,14 +253,6 @@ BYTE2 Protocol::getCRCFrame() const
     return getByte2(CRC_LOCATION);
 }
 
-bool Protocol::CheckCRC() const
-{
-    BYTE checkBytes[CHECK_LENGTH];
-    dataFrame(checkBytes);
-    BYTE2 CRCValue = Protocol::CRC16_XMODEM(checkBytes, CHECK_LENGTH);
-    return CRCValue == getCRCFrame();
-}
-
 void Protocol::setEndFrame(BYTE2 value)
 {
     setByte2(END_LOCATION, value);
@@ -269,4 +261,22 @@ void Protocol::setEndFrame(BYTE2 value)
 BYTE2 Protocol::getEndFrame() const
 {
     return getByte2(END_LOCATION);
+}
+
+bool Protocol::CheckCRC() const
+{
+    BYTE checkBytes[CHECK_LENGTH];
+    dataFrame(checkBytes);
+    BYTE2 CRCValue = Protocol::CRC16_XMODEM(checkBytes, CHECK_LENGTH);
+    return CRCValue == getCRCFrame();
+}
+
+QString Protocol::printDebug()
+{
+    QString str;
+    foreach (BYTE byte, protocolData)
+    {
+        str.append(QString::number(byte, 16)).append(" ");
+    }
+    return str;
 }

@@ -1,14 +1,17 @@
-#define READ_BUFFER_SIZE    2 * 1024
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QDebug>
+#include <QQueue>
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "protocol/interaction.h"
+#include "protocol/information.h"
 
 Q_DECLARE_METATYPE(QSerialPortInfo)
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    sp(new QSerialPort(this))
 {
     ui->setupUi(this);
     setWindowFlags((this->windowFlags()&~Qt::WindowMinMaxButtonsHint)|Qt::WindowMinimizeButtonHint);
@@ -22,11 +25,20 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->cbSerialPortName->addItem(info.portName(), var);
     }
 
+    connect(this, &MainWindow::getProtocol, this, &MainWindow::protocolDeal);
+
     //初始化
-    spHelper = nullptr;
     initCombobox();
     initChart();
     changeState(false);
+
+//    sp->setPortName("COM3");
+//    sp->setBaudRate(QSerialPort::Baud2400);
+//    sp->setDataBits(QSerialPort::Data8);
+//    sp->setStopBits(QSerialPort::OneStop);
+//    sp->setParity(QSerialPort::NoParity);
+//    sp->setFlowControl(QSerialPort::NoFlowControl);
+//    sp->open(QIODevice::ReadWrite);
 }
 
 MainWindow::~MainWindow()
@@ -78,38 +90,11 @@ void MainWindow::initCombobox()
 
 void MainWindow::initChart()
 {
-    // 测试用样点
-    *ui->chartView->series() << QPointF(1300, 8000);
-    *ui->chartView->series() << QPointF(1800, 9000);
-    *ui->chartView->series() << QPointF(1200, 14000);
-    *ui->chartView->series() << QPointF(1800, 18000);
-    /*
-    // 初始化QChart
-    myChart = new QChart();
-    // 初始化SerisLine
-    myLine = new QLineSeries(myChart);
-    myChart->addSeries(myLine);
-    myChart->legend()->hide();
-    myChart->setTitle("深度-声速");
-
-    // 坐标轴初始化
-    QValueAxis *axisX = new QValueAxis(myChart);
-    QValueAxis *axisY = new QValueAxis(myChart);
-    axisX->setRange(0, 6000);
-    axisX->setTitleText("压力/Pa");
-    axisX->setReverse();
-    axisY->setRange(0, 1000);
-    axisY->setTitleText("声速/(m/s)");
-
-    myChart->addAxis(axisX, Qt::AlignLeft);
-    myChart->addAxis(axisY, Qt::AlignTop);
-    myLine->attachAxis(axisX);
-    myLine->attachAxis(axisY);
-
-    // 初始化QChartView
-    ui->chart->setChart(myChart);
-    ui->chart->setRenderHint(QPainter::Antialiasing);
-    * */
+//    // 测试用样点
+//    *ui->chartView->series() << QPointF(1300, 8000);
+//    *ui->chartView->series() << QPointF(1800, 9000);
+//    *ui->chartView->series() << QPointF(1200, 14000);
+//    *ui->chartView->series() << QPointF(1800, 18000);
 }
 
 void MainWindow::printCaliText(Protocol &data)
@@ -149,7 +134,7 @@ void MainWindow::readCali()
     Interaction protocol;
     protocol.setCommandFrame(Interaction::READ_COMMAND);
     protocol.setCRCFrame();
-    spHelper->send(protocol);
+    sendProtocol(&protocol);
 }
 
 void MainWindow::writeCali(float soundSpeed, float temperature,
@@ -169,12 +154,12 @@ void MainWindow::writeCali(float soundSpeed, float temperature,
     protocol.setVerticalSpeedFrame(verticalSpeed);
     protocol.setVoltageFrame(voltage);
     protocol.setCRCFrame();
-    spHelper->send(protocol);
+    sendProtocol(&protocol);
 }
 
 void MainWindow::on_btnSerialPortConnect_clicked()
 {
-    if(spHelper == nullptr)
+    if(sp->isOpen() == false)
     {
         if(ui->cbSerialPortName->currentIndex() == -1)
         {
@@ -183,49 +168,96 @@ void MainWindow::on_btnSerialPortConnect_clicked()
         }
         //打开串口
         QSerialPortInfo info = ui->cbSerialPortName->currentData().value<QSerialPortInfo>();
-        spHelper = new SerialPortHelper(info, this);
-        spHelper->setReadBufferSize(READ_BUFFER_SIZE);
-        spHelper->setBaudRate(QSerialPort::BaudRate(ui->cbSerialPortBaudRate->currentData().toInt()));
-        spHelper->setDataBits(QSerialPort::DataBits(ui->cbSerialPortDataBits->currentData().toInt()));
-        spHelper->setStopBits(QSerialPort::StopBits(ui->cbSerialPortStopBits->currentData().toInt()));
-        spHelper->setParity(QSerialPort::Parity(ui->cbSerialPortParity->currentData().toInt()));
-        spHelper->setFlowControl(QSerialPort::FlowControl(ui->cbSerialPortFlowControl->currentData().toInt()));
-        spHelper->open();
+        sp->setPortName(info.portName());
+        sp->setBaudRate(QSerialPort::BaudRate(ui->cbSerialPortBaudRate->currentData().toInt()));
+        sp->setDataBits(QSerialPort::DataBits(ui->cbSerialPortDataBits->currentData().toInt()));
+        sp->setStopBits(QSerialPort::StopBits(ui->cbSerialPortStopBits->currentData().toInt()));
+        sp->setParity(QSerialPort::Parity(ui->cbSerialPortParity->currentData().toInt()));
+        sp->setFlowControl(QSerialPort::FlowControl(ui->cbSerialPortFlowControl->currentData().toInt()));
+        if(!sp->open(QIODevice::ReadWrite))
+        {
+            QMessageBox::critical(NULL, "错误", "串口打开失败");
+            return;
+        }
         //绑定数据接收槽
-        QObject::connect(spHelper, SIGNAL(receiveMessage(QString&)), this, SLOT(on_message_received(QString&)));
-        QObject::connect(spHelper, SIGNAL(protocolReady(Protocol&)), this, SLOT(protocolReceived(Protocol&)));
+        QObject::connect(sp, &QSerialPort::readyRead, this, &MainWindow::storeBytes);
         changeState(true);
         // 发送请求读取校准值协议
         readCali();
     }
     else
     {
-        spHelper->close();
-        delete spHelper;
-        spHelper = nullptr;
-        changeState(false);
-        return;
-    }
-    if(spHelper != nullptr && !spHelper->isConnected())
-    {
-        spHelper->close();
-        delete spHelper;
-        spHelper = nullptr;
+        sp->close();
         changeState(false);
     }
 }
 
-void MainWindow::protocolReceived(Protocol &data)
+void MainWindow::protocolDeal()
 {
-    if(data.getType() == Protocol::INTERACTION_PROTOCOL)
+    if(m_protocol.size() == Interaction::PROTOCOL_SIZE)
     {
-        printCaliText(data);
+        Interaction data;
+        data.setData(m_protocol);
+        // 校验CRC
+        if(data.CheckCRC())
+        {
+            printCaliText(data);
+        }
     }
-    else if(data.getType() == Protocol::INFORMATION_PROTOCOL)
+    else if(m_protocol.size() == Information::PROTOCOL_SIZE)
     {
-        printDataText(data);
-        printPoint(data);
+        Information data;
+        data.setData(m_protocol);
+        // 校验CRC
+        if(data.CheckCRC())
+        {
+            printDataText(data);
+            printPoint(data);
+        }
     }
+}
+
+void MainWindow::storeBytes()
+{
+    receiverMutex.lock();
+    receivedBytes.append(sp->readAll());
+    int startFrameLocation, endFrameLocation;
+    if((startFrameLocation = findFrameOf(true)) != -1)
+    {
+        receivedBytes.remove(0, startFrameLocation);
+    }
+    if((endFrameLocation = findFrameOf(false)) != -1 && startFrameLocation != -1)
+    {
+        m_protocol = receivedBytes.mid(0, endFrameLocation - startFrameLocation + 1);
+        receivedBytes.remove(0, endFrameLocation);
+        qDebug() << "find end" << m_protocol;
+        emit getProtocol();
+    }
+    receiverMutex.unlock();
+}
+
+int MainWindow::findFrameOf(bool isStart)
+{
+    int index = -1;
+    BYTE2 symbolFrames[2] =
+    {isStart ? Interaction::START_FRAME : Interaction::END_FRAME,
+     isStart ? Information::START_FRAME : Information::END_FRAME};
+    for(int i = 0; i < receivedBytes.size(); i++)
+    {
+        BYTE2 t = (BYTE2)((receivedBytes[i + 1] << 8) |
+                          (receivedBytes[i] & 0xFF));
+        if(t == symbolFrames[0] || t == symbolFrames[1])
+        {
+            index = isStart ? i : i + 1;
+            break;
+        }
+    }
+    return index;
+}
+
+void MainWindow::sendProtocol(Protocol* protocol)
+{
+    sp->write(protocol->getQByteArray());
 }
 
 void MainWindow::on_btnCaliVerify_clicked()

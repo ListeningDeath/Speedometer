@@ -26,7 +26,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    serial_port_helper.cpp \
     protocol/protocol.cpp\
     protocol/interaction.cpp\
     protocol/information.cpp\
@@ -35,7 +34,6 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    serial_port_helper.h \
     protocol/protocol.h\
     protocol/interaction.h\
     protocol/information.h\

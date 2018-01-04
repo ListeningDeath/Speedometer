@@ -74,6 +74,8 @@ public:
     BYTE2 getEndFrame() const;
     bool CheckCRC() const;
 
+    QString printDebug();
+
 private:
     QByteArray protocolData;
     int protocolType;

@@ -5,8 +5,9 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QList>
+#include <QMUtex>
 #include "chart/view.h"
-#include "serial_port_helper.h"
+#include "protocol/protocol.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +23,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    SerialPortHelper *spHelper;
+    QSerialPort *sp;
+    QByteArray receivedBytes;
+    QByteArray m_protocol;
+    QMutex receiverMutex;
 //    QChart *myChart;
 //    QLineSeries *myLine;
     QList<QPointF> pointList;
@@ -34,15 +38,19 @@ private:
     void printPoint(Protocol&);
     void readCali();
     void writeCali(float, float, float, float, float, float, float, float, float);
-
-public slots:
-    void protocolReceived(Protocol&);
+    void storeBytes();
+    int findFrameOf(bool);
+    void sendProtocol(Protocol*);
 
 private slots:
+    void protocolDeal();
     void on_btnSerialPortConnect_clicked();
     void on_btnCaliVerify_clicked();
     void on_btnCaliReset_clicked();
     void on_btnCaliRefresh_clicked();
+
+signals:
+    void getProtocol();
 };
 
 #endif // MAINWINDOW_H
