@@ -36,6 +36,7 @@
 #include <QtWidgets/QGraphicsTextItem>
 #include "callout.h"
 #include <QtGui/QMouseEvent>
+#include <QDebug>
 
 View::View(QWidget *parent)
     : QGraphicsView(new QGraphicsScene, parent),
@@ -108,29 +109,73 @@ void View::resizeEvent(QResizeEvent *event)
 
 void View::mouseMoveEvent(QMouseEvent *event)
 {
+    setCursor(Qt::CrossCursor);
+    qreal cur_x = event->pos().x();
+    qreal cur_y = event->pos().y();
     m_coordX->setText(QString("声速: %1 m/s").arg(m_chart->mapToValue(event->pos()).x()));
     m_coordY->setText(QString("深度: %1 m").arg(m_chart->mapToValue(event->pos()).y()));
     QGraphicsView::mouseMoveEvent(event);
+    if(event->buttons() & Qt::RightButton)
+    {
+        setCursor(Qt::SizeAllCursor);
+        qreal scroll_x = m_pre_x - cur_x;
+        qreal scroll_y = cur_y - m_pre_y;
+        m_chart->scroll(scroll_x, scroll_y);
+        const auto callouts = m_callouts;
+        for (Callout *callout : callouts)
+            callout->updateGeometry();
+    }
+    m_pre_x = cur_x;
+    m_pre_y = cur_y;
+}
+
+void View::wheelEvent(QWheelEvent *event)
+{
+    if(event->delta() > 0)
+    {
+        m_chart->zoomIn();
+    }
+    else
+    {
+        m_chart->zoomOut();
+    }
+    const auto callouts = m_callouts;
+    for (Callout *callout : callouts)
+        callout->updateGeometry();
 }
 
 void View::keepCallout()
 {
-    connect(m_tooltip, SIGNAL(calloutPressed(Callout*)), this, SLOT(removeCallout(Callout*)));
     m_callouts.append(m_tooltip);
     m_tooltip = new Callout(m_chart);
+    connect(m_tooltip, &Callout::calloutPressed, this, &View::pressCallout);
 }
 
-void View::removeCallout(Callout *callout)
+void View::pressCallout(Callout *callout, Qt::MouseButton mButton)
 {
-    m_callouts.removeOne(callout);
-    delete callout;
+    if(mButton == Qt::LeftButton)
+    {
+        if(!m_callouts.contains(callout))
+        {
+            keepCallout();
+        }
+    }
+    else if(mButton == Qt::RightButton)
+    {
+        callout->hide();
+        if(m_callouts.contains(callout))
+        {
+            m_callouts.removeOne(callout);
+        }
+    }
 }
 
 void View::tooltip(QPointF point, bool state)
 {
-    if (m_tooltip == 0)
+    if (m_tooltip == 0) {
         m_tooltip = new Callout(m_chart);
-
+        connect(m_tooltip, &Callout::calloutPressed, this, &View::pressCallout);
+    }
     if (state) {
         m_tooltip->setText(QString("声速: %1 m/s \n深度: %2 m").arg(point.x()).arg(point.y()));
         m_tooltip->setAnchor(point);

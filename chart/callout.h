@@ -74,7 +74,7 @@ private:
     QChart *m_chart;
 
 signals:
-    void calloutPressed(Callout*);
+    void calloutPressed(Callout*, Qt::MouseButton);
 };
 
 #endif // CALLOUT_H

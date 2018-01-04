@@ -58,10 +58,11 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 public slots:
     void keepCallout();
-    void removeCallout(Callout *callout);
+    void pressCallout(Callout *callout, Qt::MouseButton mButton);
     void tooltip(QPointF point, bool state);
 
 private:
@@ -71,6 +72,8 @@ private:
     QLineSeries *m_series;
     Callout *m_tooltip;
     QList<Callout *> m_callouts;
+    qreal m_pre_x;
+    qreal m_pre_y;
 };
 
 #endif

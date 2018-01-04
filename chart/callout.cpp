@@ -104,8 +104,11 @@ void Callout::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 void Callout::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     event->setAccepted(true);
-    if (event->buttons() & Qt::RightButton){
-        emit calloutPressed(this);
+    if (event->buttons() & Qt::LeftButton){
+        emit calloutPressed(this, Qt::LeftButton);
+    }
+    else if (event->buttons() & Qt::RightButton){
+        emit calloutPressed(this, Qt::RightButton);
     }
 }
 

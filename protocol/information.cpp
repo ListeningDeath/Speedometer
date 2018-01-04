@@ -3,18 +3,18 @@
 Information::Information(QObject* parent) : Protocol(parent)
 {
     SetType(Protocol::InformationProtocol);
-    sn_end_location = ProtocolSize - 2;
-    sn_check_location = 2;
-    sn_check_length = 32;
-    sn_sound_speed_location = 2;
-    sn_temperature_location = 6;
-    sn_pressure_location = 10;
-    sn_quaternion_1_location = 14;
-    sn_quaternion_2_location = 18;
-    sn_quaternion_3_location = 22;
-    sn_quaternion_4_location = 26;
-    sn_vertical_speed_location = 30;
-    sn_crc_location = 34;
+    nEndLocation = ProtocolSize - 2;
+    nCheckLocation = 2;
+    nCheckLength = 32;
+    nSoundSpeedLocation = 2;
+    nTemperatureLocation = 6;
+    nPressureLocation = 10;
+    nQuaternion1Location = 14;
+    nQuaternion2Location = 18;
+    nQuaternion3Location = 22;
+    nQuaternion4Location = 26;
+    nVerticalSpeedLocation = 30;
+    nCRCLocation = 34;
     SetStartFrame(StartFrame);
     SetEndFrame(EndFrame);
 }

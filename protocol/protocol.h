@@ -16,22 +16,22 @@ protected:
     void SetType(int);
 
     // 协议初始化
-    int sn_start_location = 0;
-    int sn_check_location = 0;
-    int sn_check_length = 0;
-    int sn_command_location = 0;
-    int sn_state_location = 0;
-    int sn_sound_speed_location = 0;
-    int sn_temperature_location = 0;
-    int sn_pressure_location = 0;
-    int sn_quaternion_1_location = 0;
-    int sn_quaternion_2_location = 0;
-    int sn_quaternion_3_location = 0;
-    int sn_quaternion_4_location = 0;
-    int sn_vertical_speed_location = 0;
-    int sn_voltage_location = 0;
-    int sn_crc_location = 0;
-    int sn_end_location = 0;
+    int nStartLocation = 0;
+    int nCheckLocation = 0;
+    int nCheckLength = 0;
+    int nCommandLocation = 0;
+    int nStateLocation = 0;
+    int nSoundSpeedLocation = 0;
+    int nTemperatureLocation = 0;
+    int nPressureLocation = 0;
+    int nQuaternion1Location = 0;
+    int nQuaternion2Location = 0;
+    int nQuaternion3Location = 0;
+    int nQuaternion4Location = 0;
+    int nVerticalSpeedLocation = 0;
+    int nVoltageLocation = 0;
+    int nCRCLocation = 0;
+    int nEndLocation = 0;
 
 public:
     explicit Protocol(QObject *parent = nullptr);

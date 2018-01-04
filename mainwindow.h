@@ -24,10 +24,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QSerialPort *m_serial_port;
+    QSerialPort *m_pSerialPort;
     QIntValidator *m_intValidator;
-    QByteArray m_receiver;
-    QByteArray m_protocol;
+    QByteArray m_gReceiver;
+    QByteArray m_gProtocol;
+    QMutex m_iReceiverMutex;
     QList<QPointF> m_points;
     void SetState(bool);
     void SerialPortConfigInit();

@@ -2,65 +2,65 @@
 
 Protocol::Protocol(QObject *parent) : QObject(parent)
 {
-    sn_start_location = 0;
+    nStartLocation = 0;
 }
 
-void Protocol::SetByte(int index, BYTE value)
+void Protocol::SetByte(int nIndex, BYTE ucValue)
 {
-    protocolData[index] = value;
+    protocolData[nIndex] = ucValue;
 }
 
-BYTE Protocol::GetByte(int index) const
+BYTE Protocol::GetByte(int nIndex) const
 {
-    return protocolData[index];
+    return protocolData[nIndex];
 }
 
-void Protocol::SetByte2(int index, BYTE2 value)
+void Protocol::SetByte2(int nIndex, BYTE2 usValue)
 {
-    protocolData[index] = value & 0xFF;
-    protocolData[index + 1] = value >> 8;
+    protocolData[nIndex] = usValue & 0xFF;
+    protocolData[nIndex + 1] = usValue >> 8;
 }
 
-BYTE2 Protocol::GetByte2(int index) const
+BYTE2 Protocol::GetByte2(int nIndex) const
 {
-    return (BYTE2)((protocolData[index + 1] << 8) |
-                   (protocolData[index] & 0xFF));
+    return (BYTE2)((protocolData[nIndex + 1] << 8) |
+                   (protocolData[nIndex] & 0xFF));
 }
 
-void Protocol::SetByte4(int index, BYTE4 value)
+void Protocol::SetByte4(int nIndex, BYTE4 unValue)
 {
-    protocolData[index] = value & 0xFF;
-    protocolData[index + 1] = (value >> 8) & 0xFF;
-    protocolData[index + 2] = (value >> 16) & 0xFF;
-    protocolData[index + 3] = (value >> 24) & 0xFF;
+    protocolData[nIndex] = unValue & 0xFF;
+    protocolData[nIndex + 1] = (unValue >> 8) & 0xFF;
+    protocolData[nIndex + 2] = (unValue >> 16) & 0xFF;
+    protocolData[nIndex + 3] = (unValue >> 24) & 0xFF;
 }
 
-BYTE4 Protocol::GetByte4(int index) const
+BYTE4 Protocol::GetByte4(int nIndex) const
 {
-    return (BYTE4)((protocolData[index + 3] << 24) |
-            ((protocolData[index + 2] & 0xFF) << 16) |
-            ((protocolData[index + 1] & 0xFF) << 8) |
-             (protocolData[index] & 0xFF));
+    return (BYTE4)((protocolData[nIndex + 3] << 24) |
+            ((protocolData[nIndex + 2] & 0xFF) << 16) |
+            ((protocolData[nIndex + 1] & 0xFF) << 8) |
+             (protocolData[nIndex] & 0xFF));
 }
 
-void Protocol::SetFloat4(int index, float value)
+void Protocol::SetFloat4(int nIndex, float nValue)
 {
-    BYTE4 *p = (BYTE4*)&value;
-    protocolData[index] = *p & 0xFF;
-    protocolData[index + 1] = (*p >> 8) & 0xFF;
-    protocolData[index + 2] = (*p >> 16) & 0xFF;
-    protocolData[index + 3] = (*p >> 24) & 0xFF;
+    BYTE4 *p = (BYTE4*)&nValue;
+    protocolData[nIndex] = *p & 0xFF;
+    protocolData[nIndex + 1] = (*p >> 8) & 0xFF;
+    protocolData[nIndex + 2] = (*p >> 16) & 0xFF;
+    protocolData[nIndex + 3] = (*p >> 24) & 0xFF;
 }
 
-float Protocol::GetFloat4(int index) const
+float Protocol::GetFloat4(int nIndex) const
 {
-    float value;
-    BYTE4 *p = (BYTE4*)&value;
-    *p = (protocolData[index + 3] << 24) |
-         ((protocolData[index + 2] & 0xFF) << 16) |
-         ((protocolData[index + 1] & 0xFF) << 8) |
-          (protocolData[index] & 0xFF);
-    return value;
+    float fValue;
+    BYTE4 *p = (BYTE4*)&fValue;
+    *p = (protocolData[nIndex + 3] << 24) |
+         ((protocolData[nIndex + 2] & 0xFF) << 16) |
+         ((protocolData[nIndex + 1] & 0xFF) << 8) |
+          (protocolData[nIndex] & 0xFF);
+    return fValue;
 }
 
 BYTE2 Protocol::CRC16_XMODEM(BYTE *puchMsg, BYTE4 usDataLen)
@@ -84,9 +84,9 @@ BYTE2 Protocol::CRC16_XMODEM(BYTE *puchMsg, BYTE4 usDataLen)
   return (wCRCin) ;
 }
 
-void Protocol::SetType(int type)
+void Protocol::SetType(int nType)
 {
-    protocolType = type;
+    protocolType = nType;
 }
 
 int Protocol::GetType()
@@ -94,9 +94,9 @@ int Protocol::GetType()
     return this->protocolType;
 }
 
-void Protocol::SetData(QByteArray &data)
+void Protocol::SetData(QByteArray &rgData)
 {
-    protocolData = QByteArray(data);
+    protocolData = QByteArray(rgData);
 }
 
 QByteArray &Protocol::GetQByteArray()
@@ -104,171 +104,171 @@ QByteArray &Protocol::GetQByteArray()
     return protocolData;
 }
 
-int Protocol::DataFrame(BYTE* dataFramePtr) const
+int Protocol::DataFrame(BYTE* pucDataFrame) const
 {
-    for(int i = 0; i < sn_check_length; i++)
+    for(int i = 0; i < nCheckLength; i++)
     {
-        dataFramePtr[i] = protocolData[sn_check_location + i];
+        pucDataFrame[i] = protocolData[nCheckLocation + i];
     }
-    return sn_check_length;
+    return nCheckLength;
 }
 
-void Protocol::SetStartFrame(BYTE2 value)
+void Protocol::SetStartFrame(BYTE2 usValue)
 {
-    SetByte2(sn_start_location, value);
+    SetByte2(nStartLocation, usValue);
 }
 
 BYTE2 Protocol::GetStartFrame() const
 {
-    return GetByte2(sn_start_location);
+    return GetByte2(nStartLocation);
 }
 
-void Protocol::SetCommandFrame(BYTE2 value)
+void Protocol::SetCommandFrame(BYTE2 usValue)
 {
-    SetByte2(sn_command_location, value);
+    SetByte2(nCommandLocation, usValue);
 }
 
 BYTE2 Protocol::GetCommandFrame() const
 {
-    return GetByte2(sn_command_location);
+    return GetByte2(nCommandLocation);
 }
 
-void Protocol::SetStateFrame(BYTE2 value)
+void Protocol::SetStateFrame(BYTE2 usValue)
 {
-    SetByte2(sn_state_location, value);
+    SetByte2(nStateLocation, usValue);
 }
 
 BYTE2 Protocol::GetStateFrame() const
 {
-    return GetByte2(sn_state_location);
+    return GetByte2(nStateLocation);
 }
 
-void Protocol::SetSoundSpeedFrame(float value)
+void Protocol::SetSoundSpeedFrame(float fValue)
 {
-    SetFloat4(sn_sound_speed_location, value);
+    SetFloat4(nSoundSpeedLocation, fValue);
 }
 
 float Protocol::GetSoundSpeedFrame() const
 {
-    return GetFloat4(sn_sound_speed_location);
+    return GetFloat4(nSoundSpeedLocation);
 }
 
-void Protocol::SetTemperatureFrame(float value)
+void Protocol::SetTemperatureFrame(float fValue)
 {
-    SetFloat4(sn_temperature_location, value);
+    SetFloat4(nTemperatureLocation, fValue);
 }
 
 float Protocol::GetTemperatureFrame() const
 {
-    return GetFloat4(sn_temperature_location);
+    return GetFloat4(nTemperatureLocation);
 }
 
-void Protocol::SetPressureFrame(float value)
+void Protocol::SetPressureFrame(float fValue)
 {
-    SetFloat4(sn_pressure_location, value);
+    SetFloat4(nPressureLocation, fValue);
 }
 
 float Protocol::GetPressureFrame() const
 {
-    return GetFloat4(sn_pressure_location);
+    return GetFloat4(nPressureLocation);
 }
 
-void Protocol::SetQuat1Frame(float value)
+void Protocol::SetQuat1Frame(float fValue)
 {
-    SetFloat4(sn_quaternion_1_location, value);
+    SetFloat4(nQuaternion1Location, fValue);
 }
 
 float Protocol::GetQuat1Frame() const
 {
-    return GetFloat4(sn_quaternion_1_location);
+    return GetFloat4(nQuaternion1Location);
 }
 
-void Protocol::SetQuat2Frame(float value)
+void Protocol::SetQuat2Frame(float fValue)
 {
-    SetFloat4(sn_quaternion_2_location, value);
+    SetFloat4(nQuaternion2Location, fValue);
 }
 
 float Protocol::GetQuat2Frame() const
 {
-    return GetFloat4(sn_quaternion_2_location);
+    return GetFloat4(nQuaternion2Location);
 }
 
-void Protocol::SetQuat3Frame(float value)
+void Protocol::SetQuat3Frame(float fValue)
 {
-    SetFloat4(sn_quaternion_3_location, value);
+    SetFloat4(nQuaternion3Location, fValue);
 }
 
 float Protocol::GetQuat3Frame() const
 {
-    return GetFloat4(sn_quaternion_3_location);
+    return GetFloat4(nQuaternion3Location);
 }
 
-void Protocol::SetQuat4Frame(float value)
+void Protocol::SetQuat4Frame(float fValue)
 {
-    SetFloat4(sn_quaternion_4_location, value);
+    SetFloat4(nQuaternion4Location, fValue);
 }
 
 float Protocol::GetQuat4Frame() const
 {
-    return GetFloat4(sn_quaternion_4_location);
+    return GetFloat4(nQuaternion4Location);
 }
 
-void Protocol::SetVerticalSpeedFrame(float value)
+void Protocol::SetVerticalSpeedFrame(float fValue)
 {
-    SetFloat4(sn_vertical_speed_location, value);
+    SetFloat4(nVerticalSpeedLocation, fValue);
 }
 
 float Protocol::GetVerticalSpeedFrame() const
 {
-    return GetFloat4(sn_vertical_speed_location);
+    return GetFloat4(nVerticalSpeedLocation);
 }
 
-void Protocol::SetVoltageFrame(float value)
+void Protocol::SetVoltageFrame(float fValue)
 {
-    SetFloat4(sn_voltage_location, value);
+    SetFloat4(nVoltageLocation, fValue);
 }
 
 float Protocol::GetVoltageFrame() const
 {
-    return GetFloat4(sn_voltage_location);
+    return GetFloat4(nVoltageLocation);
 }
 
-void Protocol::SetCRCFrame(BYTE2 value)
+void Protocol::SetCRCFrame(BYTE2 usValue)
 {
-    if(value != 0)
+    if(usValue != 0)
     {
-        SetByte2(sn_crc_location, value);
+        SetByte2(nCRCLocation, usValue);
     }
     else
     {
-        BYTE checkBytes[sn_check_length];
-        DataFrame(checkBytes);
-        BYTE2 CRCValue = Protocol::CRC16_XMODEM(checkBytes, sn_check_length);
-        SetCRCFrame(CRCValue);
+        BYTE gucCheckBytes[nCheckLength];
+        DataFrame(gucCheckBytes);
+        BYTE2 usCRCValue = Protocol::CRC16_XMODEM(gucCheckBytes, nCheckLength);
+        SetCRCFrame(usCRCValue);
     }
 }
 
 BYTE2 Protocol::GetCRCFrame() const
 {
-    return GetByte2(sn_crc_location);
+    return GetByte2(nCRCLocation);
 }
 
-void Protocol::SetEndFrame(BYTE2 value)
+void Protocol::SetEndFrame(BYTE2 usValue)
 {
-    SetByte2(sn_end_location, value);
+    SetByte2(nEndLocation, usValue);
 }
 
 BYTE2 Protocol::GetEndFrame() const
 {
-    return GetByte2(sn_end_location);
+    return GetByte2(nEndLocation);
 }
 
 bool Protocol::CheckCRC() const
 {
-    BYTE checkBytes[sn_check_length];
-    DataFrame(checkBytes);
-    BYTE2 CRCValue = Protocol::CRC16_XMODEM(checkBytes, sn_check_length);
-    return CRCValue == GetCRCFrame();
+    BYTE gucCheckBytes[nCheckLength];
+    DataFrame(gucCheckBytes);
+    BYTE2 usCRCValue = Protocol::CRC16_XMODEM(gucCheckBytes, nCheckLength);
+    return usCRCValue == GetCRCFrame();
 }
 
 QString Protocol::PrintDebug()

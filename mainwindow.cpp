@@ -5,13 +5,19 @@
 #include "ui_mainwindow.h"
 #include "protocol/interaction.h"
 #include "protocol/information.h"
+#define MAX_RECEIVER_BYTE_COUNT 64      // 最大存储字节数
+#define DEFAULT_BAUDRATE        "2400"
+#define DEFAULT_DATABITS        "8"
+#define DEFAULT_STOPBITS        "1"
+#define DEFAULT_PARITY          "None"
+#define DEFAULT_FLOWCONTROL     "None"
 
 Q_DECLARE_METATYPE(QSerialPortInfo)
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_serial_port(new QSerialPort(this)),
+    m_pSerialPort(new QSerialPort(this)),
     m_intValidator(new QIntValidator(0, 4000000, this))
 {
     ui->setupUi(this);
@@ -19,11 +25,11 @@ MainWindow::MainWindow(QWidget *parent) :
     setFixedSize(width(), height());
 
     //读取串口信息
-    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+    foreach (const QSerialPortInfo &iInfo, QSerialPortInfo::availablePorts())
     {
-        QVariant var;
-        var.setValue(info);
-        ui->cbSerialPortName->addItem(info.portName(), var);
+        QVariant iVar;
+        iVar.setValue(iInfo);
+        ui->cbSerialPortName->addItem(iInfo.portName(), iVar);
     }
 
     connect(this, &MainWindow::GetProtocol, this, &MainWindow::ProtocolDeal);
@@ -39,13 +45,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::SetState(bool isConnected)
+void MainWindow::SetState(bool bIsConnected)
 {
-    ui->gbSerialPortInfo->setEnabled(!isConnected);
-    ui->lblSerialPortState->setText(QString(isConnected ? "已连接" : "未连接"));
-    ui->btnSerialPortConnect->setText(QString(isConnected ? "断开(&D)" : "连接(&C)"));
-    ui->gbCalibration->setEnabled(isConnected);
-    ui->gbDataCollection->setEnabled(isConnected);
+    ui->gbSerialPortInfo->setEnabled(!bIsConnected);
+    ui->lblSerialPortState->setText(QString(bIsConnected ? "已连接" : "未连接"));
+    ui->btnSerialPortConnect->setText(QString(bIsConnected ? "断开(&D)" : "连接(&C)"));
+    ui->gbCalibration->setEnabled(bIsConnected);
+    ui->gbDataCollection->setEnabled(bIsConnected);
 }
 
 void MainWindow::SerialPortConfigInit()
@@ -59,77 +65,80 @@ void MainWindow::SerialPortConfigInit()
     ui->cbSerialPortBaudRate->addItem(QString("57600"), QSerialPort::Baud57600);
     ui->cbSerialPortBaudRate->addItem(QString("115200"), QSerialPort::Baud115200);
     ui->cbSerialPortBaudRate->addItem(QString("Custom"));
-    ui->cbSerialPortBaudRate->setCurrentText("2400");
+    ui->cbSerialPortBaudRate->setCurrentText(DEFAULT_BAUDRATE);
 
     ui->cbSerialPortDataBits->addItem(QString("5"), QSerialPort::Data5);
     ui->cbSerialPortDataBits->addItem(QString("6"), QSerialPort::Data6);
     ui->cbSerialPortDataBits->addItem(QString("7"), QSerialPort::Data7);
     ui->cbSerialPortDataBits->addItem(QString("8"), QSerialPort::Data8);
-    ui->cbSerialPortDataBits->setCurrentText("8");
+    ui->cbSerialPortDataBits->setCurrentText(DEFAULT_DATABITS);
 
     ui->cbSerialPortStopBits->addItem(QString("1"), QSerialPort::OneStop);
     ui->cbSerialPortStopBits->addItem(QString("1.5"), QSerialPort::OneAndHalfStop);
     ui->cbSerialPortStopBits->addItem(QString("2"), QSerialPort::TwoStop);
+    ui->cbSerialPortStopBits->setCurrentText(DEFAULT_STOPBITS);
 
     ui->cbSerialPortParity->addItem(QString("None"), QSerialPort::NoParity);
     ui->cbSerialPortParity->addItem(QString("Even"), QSerialPort::EvenParity);
     ui->cbSerialPortParity->addItem(QString("Odd"), QSerialPort::OddParity);
     ui->cbSerialPortParity->addItem(QString("Space"), QSerialPort::SpaceParity);
     ui->cbSerialPortParity->addItem(QString("Mark"), QSerialPort::MarkParity);
+    ui->cbSerialPortParity->setCurrentText(DEFAULT_PARITY);
 
     ui->cbSerialPortFlowControl->addItem(QString("None"), QSerialPort::NoFlowControl);
     ui->cbSerialPortFlowControl->addItem(QString("Hardware"), QSerialPort::HardwareControl);
     ui->cbSerialPortFlowControl->addItem(QString("Software"), QSerialPort::SoftwareControl);
+    ui->cbSerialPortFlowControl->setCurrentText(DEFAULT_FLOWCONTROL);
 }
 
 void MainWindow::ChartInit()
 {
-//    // 测试用样点
-//    *ui->chartView->series() << QPointF(1300, 8000);
-//    *ui->chartView->series() << QPointF(1800, 9000);
-//    *ui->chartView->series() << QPointF(1200, 14000);
-//    *ui->chartView->series() << QPointF(1800, 18000);
+    // 测试用样点
+    *ui->chartView->series() << QPointF(1300, 8000);
+    *ui->chartView->series() << QPointF(1800, 9000);
+    *ui->chartView->series() << QPointF(1200, 14000);
+    *ui->chartView->series() << QPointF(1800, 18000);
 }
 
-void MainWindow::PrintCaliText(Protocol *data)
+void MainWindow::PrintCaliText(Protocol *pData)
 {
-    ui->txtCaliSoundSpeed->setText(QString::number(data->GetSoundSpeedFrame()));
-    ui->txtCaliTemperature->setText(QString::number(data->GetTemperatureFrame()));
-    ui->txtCaliPressure->setText(QString::number(data->GetPressureFrame()));
-    ui->txtCaliQuat1->setText(QString::number(data->GetQuat1Frame()));
-    ui->txtCaliQuat2->setText(QString::number(data->GetQuat2Frame()));
-    ui->txtCaliQuat3->setText(QString::number(data->GetQuat3Frame()));
-    ui->txtCaliQuat4->setText(QString::number(data->GetQuat4Frame()));
-    ui->txtCaliVertSpeed->setText(QString::number(data->GetVerticalSpeedFrame()));
-    ui->txtCaliVoltage->setText(QString::number(data->GetVoltageFrame()));
+    ui->txtCaliSoundSpeed->setText(QString::number(pData->GetSoundSpeedFrame()));
+    ui->txtCaliTemperature->setText(QString::number(pData->GetTemperatureFrame()));
+    ui->txtCaliPressure->setText(QString::number(pData->GetPressureFrame()));
+    ui->txtCaliQuat1->setText(QString::number(pData->GetQuat1Frame()));
+    ui->txtCaliQuat2->setText(QString::number(pData->GetQuat2Frame()));
+    ui->txtCaliQuat3->setText(QString::number(pData->GetQuat3Frame()));
+    ui->txtCaliQuat4->setText(QString::number(pData->GetQuat4Frame()));
+    ui->txtCaliVertSpeed->setText(QString::number(pData->GetVerticalSpeedFrame()));
+    ui->txtCaliVoltage->setText(QString::number(pData->GetVoltageFrame()));
 }
 
-void MainWindow::PrintDataText(Protocol *data)
+void MainWindow::PrintDataText(Protocol *pData)
 {
-    ui->txtDataSoundSpeed->setText(QString::number(data->GetSoundSpeedFrame()));
-    ui->txtDataTemperature->setText(QString::number(data->GetTemperatureFrame()));
-    ui->txtDataPressure->setText(QString::number(data->GetPressureFrame()));
-    ui->txtDataVertSpeed->setText(QString::number(data->GetVerticalSpeedFrame()));
-    ui->txtDataQuat1->setText(QString::number(data->GetQuat1Frame()));
-    ui->txtDataQuat2->setText(QString::number(data->GetQuat2Frame()));
-    ui->txtDataQuat3->setText(QString::number(data->GetQuat3Frame()));
-    ui->txtDataQuat4->setText(QString::number(data->GetQuat4Frame()));
+    ui->txtDataSoundSpeed->setText(QString::number(pData->GetSoundSpeedFrame()));
+    ui->txtDataTemperature->setText(QString::number(pData->GetTemperatureFrame()));
+    ui->txtDataPressure->setText(QString::number(pData->GetPressureFrame()));
+    ui->txtDataVertSpeed->setText(QString::number(pData->GetVerticalSpeedFrame()));
+    ui->txtDataQuat1->setText(QString::number(pData->GetQuat1Frame()));
+    ui->txtDataQuat2->setText(QString::number(pData->GetQuat2Frame()));
+    ui->txtDataQuat3->setText(QString::number(pData->GetQuat3Frame()));
+    ui->txtDataQuat4->setText(QString::number(pData->GetQuat4Frame()));
 }
 
-void MainWindow::PrintPoint(Protocol *data)
+void MainWindow::PrintPoint(Protocol *pData)
 {
-    QPointF point(data->GetPressureFrame(), data->GetSoundSpeedFrame());
+    QPointF point(pData->GetPressureFrame(), pData->GetSoundSpeedFrame());
     m_points << point;
     *ui->chartView->series() << point;
 }
 
 void MainWindow::ReadCali()
 {
-    Interaction *data = new Interaction(this);
-    data->SetCommandFrame(Interaction::ReadCommand);
-    data->SetCRCFrame();
-    SendProtocol(data);
-    delete data;
+    Interaction *pData = new Interaction(this);
+    pData->SetCommandFrame(Interaction::ReadCommand);
+    pData->SetCRCFrame();
+    SendProtocol(pData);
+    delete pData;
 }
 
 void MainWindow::WriteCali(float soundSpeed,
@@ -142,106 +151,116 @@ void MainWindow::WriteCali(float soundSpeed,
                            float verticalSpeed,
                            float voltage)
 {
-    Interaction *data = new Interaction(this);
-    data->SetCommandFrame(Interaction::WriteCommand);
-    data->SetSoundSpeedFrame(soundSpeed);
-    data->SetTemperatureFrame(temperature);
-    data->SetPressureFrame(pressure);
-    data->SetQuat1Frame(quat1);
-    data->SetQuat2Frame(quat2);
-    data->SetQuat3Frame(quat3);
-    data->SetQuat4Frame(quat4);
-    data->SetVerticalSpeedFrame(verticalSpeed);
-    data->SetVoltageFrame(voltage);
-    data->SetCRCFrame();
-    SendProtocol(data);
-    delete data;
+    Interaction *pData = new Interaction(this);
+    pData->SetCommandFrame(Interaction::WriteCommand);
+    pData->SetSoundSpeedFrame(soundSpeed);
+    pData->SetTemperatureFrame(temperature);
+    pData->SetPressureFrame(pressure);
+    pData->SetQuat1Frame(quat1);
+    pData->SetQuat2Frame(quat2);
+    pData->SetQuat3Frame(quat3);
+    pData->SetQuat4Frame(quat4);
+    pData->SetVerticalSpeedFrame(verticalSpeed);
+    pData->SetVoltageFrame(voltage);
+    pData->SetCRCFrame();
+    SendProtocol(pData);
+    delete pData;
 }
 
 void MainWindow::ReadProtocol()
 {
-    m_receiver.append(m_serial_port->readAll());
-    int startFrameLocation, endFrameLocation;
-    int startFrameProtocolType, endFrameProtocolType;
-    if((startFrameLocation = FindFrameOf(true, &startFrameProtocolType)) != -1)
+    m_iReceiverMutex.lock();
+    m_gReceiver.append(m_pSerialPort->readAll());
+    int nAbandonLen = m_gReceiver.size() - MAX_RECEIVER_BYTE_COUNT;
+    if(nAbandonLen > 0)
     {
-        m_receiver.remove(0, startFrameLocation);
+        // 若超过最大存储字节数，丢弃头部多余的字节
+        m_gReceiver.remove(0, nAbandonLen);
     }
-    if((endFrameLocation = FindFrameOf(false, &endFrameProtocolType)) != -1 && startFrameLocation != -1)
+    int nStartFrameLocation;
+    int nEndFrameLocation;
+    int nStartFrameProtocolType;
+    int nEndFrameProtocolType;
+    if((nStartFrameLocation = FindFrameOf(true, &nStartFrameProtocolType)) != -1)
     {
-        if(startFrameProtocolType != endFrameProtocolType)
+        m_gReceiver.remove(0, nStartFrameLocation);
+    }
+    if((nEndFrameLocation = FindFrameOf(false, &nEndFrameProtocolType)) != -1 && nStartFrameLocation != -1)
+    {
+        if(nStartFrameProtocolType != nEndFrameProtocolType)
         {
             // 若首尾类型不一致，丢弃
-            m_receiver.remove(0, endFrameLocation);
+            m_gReceiver.remove(0, nEndFrameLocation);
         }
-        m_protocol = m_receiver.mid(0, endFrameLocation - startFrameLocation + 1);
-        m_receiver.remove(0, endFrameLocation);
+        m_gProtocol = m_gReceiver.mid(0, nEndFrameLocation - nStartFrameLocation + 1);
+        m_gReceiver.remove(0, nEndFrameLocation);
 //        qDebug() << "find end" << m_protocol;
-        emit GetProtocol(startFrameProtocolType);
+        emit GetProtocol(nStartFrameProtocolType);
     }
+    m_iReceiverMutex.unlock();
 }
 
-int MainWindow::FindFrameOf(bool isStart, int *protocolType)
+int MainWindow::FindFrameOf(bool bIsStart, int *pnProtocolType)
 {
-    int index = -1;
-    BYTE2 symbolFrames[2] =
-    {isStart ? Interaction::StartFrame : Interaction::EndFrame,
-     isStart ? Information::StartFrame : Information::EndFrame};
-    for(int i = 0; i < m_receiver.size(); i++)
+    int nIndex = -1;
+    BYTE2 gcFeatures[2] =
+    {bIsStart ? Interaction::StartFrame : Interaction::EndFrame,
+     bIsStart ? Information::StartFrame : Information::EndFrame};
+    for(int i = 0; i < m_gReceiver.size(); i++)
     {
-        BYTE2 t = (BYTE2)((m_receiver[i + 1] << 8) |
-                          (m_receiver[i] & 0xFF));
-        if(t == symbolFrames[Protocol::InteractionProtocol])
+        BYTE2 cCurFrame = (BYTE2)((m_gReceiver[i + 1] << 8) |
+                          (m_gReceiver[i] & 0xFF));
+        if(cCurFrame == gcFeatures[Protocol::InteractionProtocol])
         {
-            index = isStart ? i : i + 1;
-            *protocolType = Protocol::InteractionProtocol;
+            nIndex = bIsStart ? i : i + 1;
+            *pnProtocolType = Protocol::InteractionProtocol;
             break;
         }
-        else if(t == symbolFrames[Protocol::InformationProtocol])
+        else if(cCurFrame == gcFeatures[Protocol::InformationProtocol])
         {
-            index = isStart ? i : i + 1;
-            *protocolType = Protocol::InformationProtocol;
+            nIndex = bIsStart ? i : i + 1;
+            *pnProtocolType = Protocol::InformationProtocol;
             break;
         }
     }
-    return index;
+    return nIndex;
 }
 
-void MainWindow::SendProtocol(Protocol* data)
+void MainWindow::SendProtocol(Protocol *pData)
 {
-    m_serial_port->write(data->GetQByteArray());
+    m_pSerialPort->write(pData->GetQByteArray());
 }
 
-void MainWindow::ProtocolDeal(int protocolType)
+void MainWindow::ProtocolDeal(int nProtocolType)
 {
-    Protocol *data;
-    if(protocolType == Protocol::InteractionProtocol)
+    Protocol *pData;
+    if(nProtocolType == Protocol::InteractionProtocol)
     {
-        data = new Interaction(this);
-        data->SetData(m_protocol);
+        pData = new Interaction(this);
+        pData->SetData(m_gProtocol);
         // 校验CRC
-        if(data->CheckCRC())
+        if(pData->CheckCRC())
         {
-            PrintCaliText(data);
+            PrintCaliText(pData);
         }
     }
     else
     {
-        data = new Information(this);
-        data->SetData(m_protocol);
+        pData = new Information(this);
+        pData->SetData(m_gProtocol);
         // 校验CRC
-        if(data->CheckCRC())
+        if(pData->CheckCRC())
         {
-            PrintDataText(data);
-            PrintPoint(data);
+            PrintDataText(pData);
+            PrintPoint(pData);
         }
     }
-    delete data;
+    delete pData;
 }
 
 void MainWindow::on_btnSerialPortConnect_clicked()
 {
-    if(m_serial_port->isOpen() == false)
+    if(m_pSerialPort->isOpen() == false)
     {
         if(ui->cbSerialPortName->currentIndex() == -1)
         {
@@ -250,33 +269,33 @@ void MainWindow::on_btnSerialPortConnect_clicked()
         }
         //打开串口
         QSerialPortInfo info = ui->cbSerialPortName->currentData().value<QSerialPortInfo>();
-        m_serial_port->setPortName(info.portName());
+        m_pSerialPort->setPortName(info.portName());
         if(ui->cbSerialPortBaudRate->currentIndex() == 8)
         {
-            m_serial_port->setBaudRate(ui->cbSerialPortBaudRate->currentText().toInt());
+            m_pSerialPort->setBaudRate(ui->cbSerialPortBaudRate->currentText().toInt());
         }
         else
         {
-            m_serial_port->setBaudRate(QSerialPort::BaudRate(ui->cbSerialPortBaudRate->currentData().toInt()));
+            m_pSerialPort->setBaudRate(QSerialPort::BaudRate(ui->cbSerialPortBaudRate->currentData().toInt()));
         }
-        m_serial_port->setDataBits(QSerialPort::DataBits(ui->cbSerialPortDataBits->currentData().toInt()));
-        m_serial_port->setStopBits(QSerialPort::StopBits(ui->cbSerialPortStopBits->currentData().toInt()));
-        m_serial_port->setParity(QSerialPort::Parity(ui->cbSerialPortParity->currentData().toInt()));
-        m_serial_port->setFlowControl(QSerialPort::FlowControl(ui->cbSerialPortFlowControl->currentData().toInt()));
-        if(!m_serial_port->open(QIODevice::ReadWrite))
+        m_pSerialPort->setDataBits(QSerialPort::DataBits(ui->cbSerialPortDataBits->currentData().toInt()));
+        m_pSerialPort->setStopBits(QSerialPort::StopBits(ui->cbSerialPortStopBits->currentData().toInt()));
+        m_pSerialPort->setParity(QSerialPort::Parity(ui->cbSerialPortParity->currentData().toInt()));
+        m_pSerialPort->setFlowControl(QSerialPort::FlowControl(ui->cbSerialPortFlowControl->currentData().toInt()));
+        if(!m_pSerialPort->open(QIODevice::ReadWrite))
         {
             QMessageBox::critical(NULL, "错误", "串口打开失败");
             return;
         }
         //绑定数据接收槽
-        QObject::connect(m_serial_port, &QSerialPort::readyRead, this, &MainWindow::ReadProtocol);
+        QObject::connect(m_pSerialPort, &QSerialPort::readyRead, this, &MainWindow::ReadProtocol);
         SetState(true);
         // 发送请求读取校准值协议
         ReadCali();
     }
     else
     {
-        m_serial_port->close();
+        m_pSerialPort->close();
         SetState(false);
     }
 }
@@ -310,8 +329,8 @@ void MainWindow::on_cbSerialPortBaudRate_currentIndexChanged(int index)
     {
         ui->cbSerialPortBaudRate->setEditable(true);
         ui->cbSerialPortBaudRate->clearEditText();
-        QLineEdit *edit = ui->cbSerialPortBaudRate->lineEdit();
-        edit->setValidator(m_intValidator);
+        QLineEdit *pEdit = ui->cbSerialPortBaudRate->lineEdit();
+        pEdit->setValidator(m_intValidator);
     }
     else
     {
