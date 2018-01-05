@@ -93,11 +93,11 @@ void MainWindow::SerialPortConfigInit()
 
 void MainWindow::ChartInit()
 {
-    // 测试用样点
-    *ui->chartView->series() << QPointF(1300, 8000);
-    *ui->chartView->series() << QPointF(1800, 9000);
-    *ui->chartView->series() << QPointF(1200, 14000);
-    *ui->chartView->series() << QPointF(1800, 18000);
+//    // 测试用样点
+//    *ui->chartView->series() << QPointF(1300, 8000);
+//    *ui->chartView->series() << QPointF(1800, 9000);
+//    *ui->chartView->series() << QPointF(1200, 14000);
+//    *ui->chartView->series() << QPointF(1800, 18000);
 }
 
 void MainWindow::PrintCaliText(Protocol *pData)
@@ -127,7 +127,7 @@ void MainWindow::PrintDataText(Protocol *pData)
 
 void MainWindow::PrintPoint(Protocol *pData)
 {
-    QPointF point(pData->GetPressureFrame(), pData->GetSoundSpeedFrame());
+    QPointF point(pData->GetSoundSpeedFrame(), pData->GetPressureFrame());
     m_points << point;
     *ui->chartView->series() << point;
 }
