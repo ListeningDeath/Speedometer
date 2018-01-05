@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QQueue>
 #include "main_window.h"
-#include "ui_mainwindow.h"
+#include "ui_main_window.h"
 #include "protocol/interaction.h"
 #include "protocol/information.h"
 #define     MAX_RECEIVER_BYTE_COUNT         64      // 最大存储字节数
