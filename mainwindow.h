@@ -31,6 +31,7 @@ private:
     QMutex m_iReceiverMutex;
     QList<QPointF> m_points;
     void SetState(bool);
+    void SerialPortInfoInit();
     void SerialPortConfigInit();
     void ChartInit();
     void PrintCaliText(Protocol*);

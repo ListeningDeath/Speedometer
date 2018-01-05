@@ -35,7 +35,7 @@
       <rect>
        <x>100</x>
        <y>30</y>
-       <width>111</width>
+       <width>101</width>
        <height>22</height>
       </rect>
      </property>
@@ -43,7 +43,7 @@
     <widget class="QLabel" name="lblSerialPortName">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>30</y>
        <width>51</width>
        <height>16</height>
@@ -58,7 +58,7 @@
       <rect>
        <x>100</x>
        <y>60</y>
-       <width>111</width>
+       <width>101</width>
        <height>22</height>
       </rect>
      </property>
@@ -66,7 +66,7 @@
     <widget class="QLabel" name="lblSerialPortBaudRate">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>60</y>
        <width>51</width>
        <height>16</height>
@@ -81,7 +81,7 @@
       <rect>
        <x>100</x>
        <y>90</y>
-       <width>111</width>
+       <width>101</width>
        <height>22</height>
       </rect>
      </property>
@@ -89,7 +89,7 @@
     <widget class="QLabel" name="lblSerialPortDataBit">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>90</y>
        <width>51</width>
        <height>16</height>
@@ -104,7 +104,7 @@
       <rect>
        <x>100</x>
        <y>120</y>
-       <width>111</width>
+       <width>101</width>
        <height>22</height>
       </rect>
      </property>
@@ -112,7 +112,7 @@
     <widget class="QLabel" name="lblSerialPortStopBit">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>120</y>
        <width>51</width>
        <height>16</height>
@@ -127,7 +127,7 @@
       <rect>
        <x>100</x>
        <y>150</y>
-       <width>111</width>
+       <width>101</width>
        <height>22</height>
       </rect>
      </property>
@@ -135,7 +135,7 @@
     <widget class="QLabel" name="lblSerialPortCheck">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>150</y>
        <width>51</width>
        <height>16</height>
@@ -148,7 +148,7 @@
     <widget class="QLabel" name="lblSerialPortFlowControl">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>180</y>
        <width>51</width>
        <height>16</height>
@@ -163,7 +163,7 @@
       <rect>
        <x>100</x>
        <y>180</y>
-       <width>111</width>
+       <width>101</width>
        <height>22</height>
       </rect>
      </property>
@@ -179,12 +179,12 @@
      </rect>
     </property>
     <property name="title">
-     <string>校准值</string>
+     <string>倍率校准值</string>
     </property>
     <widget class="QLabel" name="lblCaliSoundSpeed">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>30</y>
        <width>31</width>
        <height>16</height>
@@ -197,7 +197,7 @@
     <widget class="QLineEdit" name="txtCaliSoundSpeed">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>30</y>
        <width>81</width>
        <height>20</height>
@@ -207,7 +207,7 @@
     <widget class="QLineEdit" name="txtCaliTemperature">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>60</y>
        <width>81</width>
        <height>20</height>
@@ -217,7 +217,7 @@
     <widget class="QLabel" name="lblCaliTemperature">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>60</y>
        <width>31</width>
        <height>16</height>
@@ -230,7 +230,7 @@
     <widget class="QLineEdit" name="txtCaliPressure">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>90</y>
        <width>81</width>
        <height>20</height>
@@ -240,7 +240,7 @@
     <widget class="QLabel" name="lblCaliPressure">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>90</y>
        <width>31</width>
        <height>16</height>
@@ -253,7 +253,7 @@
     <widget class="QLineEdit" name="txtCaliQuat1">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>120</y>
        <width>81</width>
        <height>20</height>
@@ -263,7 +263,7 @@
     <widget class="QLabel" name="lblCaliQuat1">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>120</y>
        <width>71</width>
        <height>16</height>
@@ -276,7 +276,7 @@
     <widget class="QLineEdit" name="txtCaliQuat2">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>150</y>
        <width>81</width>
        <height>20</height>
@@ -286,7 +286,7 @@
     <widget class="QLabel" name="lblCaliQuat2">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>150</y>
        <width>71</width>
        <height>16</height>
@@ -299,7 +299,7 @@
     <widget class="QLineEdit" name="txtCaliQuat3">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>180</y>
        <width>81</width>
        <height>20</height>
@@ -309,7 +309,7 @@
     <widget class="QLabel" name="lblCaliQuat3">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>180</y>
        <width>71</width>
        <height>16</height>
@@ -322,7 +322,7 @@
     <widget class="QLineEdit" name="txtCaliQuat4">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>210</y>
        <width>81</width>
        <height>20</height>
@@ -332,7 +332,7 @@
     <widget class="QLabel" name="lblCaliQuat4">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>210</y>
        <width>71</width>
        <height>16</height>
@@ -345,7 +345,7 @@
     <widget class="QLineEdit" name="txtCaliVertSpeed">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>240</y>
        <width>81</width>
        <height>20</height>
@@ -355,7 +355,7 @@
     <widget class="QLabel" name="lblCaliVertSpeed">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>240</y>
        <width>51</width>
        <height>16</height>
@@ -368,7 +368,7 @@
     <widget class="QLabel" name="lblCaliRefVoltage">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>270</y>
        <width>51</width>
        <height>16</height>
@@ -381,7 +381,7 @@
     <widget class="QLineEdit" name="txtCaliVoltage">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>120</x>
        <y>270</y>
        <width>81</width>
        <height>20</height>
@@ -425,71 +425,6 @@
      </property>
      <property name="text">
       <string>刷新(&amp;F)</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lblCaliSoundSpeedUnit">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>30</y>
-       <width>31</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>m/s</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lblCaliTemperatureUnit">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>60</y>
-       <width>31</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>℃</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lblCaliPressureUnit">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>90</y>
-       <width>31</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>K Pa</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lblCaliVerticalSpeedUnit">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>240</y>
-       <width>31</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>m/s</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lblCaliSoundVoltageUnit">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>270</y>
-       <width>31</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
      </property>
     </widget>
    </widget>

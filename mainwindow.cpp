@@ -24,17 +24,11 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowFlags((this->windowFlags()&~Qt::WindowMinMaxButtonsHint)|Qt::WindowMinimizeButtonHint);
     setFixedSize(width(), height());
 
-    //读取串口信息
-    foreach (const QSerialPortInfo &iInfo, QSerialPortInfo::availablePorts())
-    {
-        QVariant iVar;
-        iVar.setValue(iInfo);
-        ui->cbSerialPortName->addItem(iInfo.portName(), iVar);
-    }
-
     connect(this, &MainWindow::GetProtocol, this, &MainWindow::ProtocolDeal);
 
     //初始化
+    SerialPortInfoInit();
+    SerialPortInfoInit();
     SerialPortConfigInit();
     ChartInit();
     SetState(false);
@@ -52,6 +46,18 @@ void MainWindow::SetState(bool bIsConnected)
     ui->btnSerialPortConnect->setText(QString(bIsConnected ? "断开(&D)" : "连接(&C)"));
     ui->gbCalibration->setEnabled(bIsConnected);
     ui->gbDataCollection->setEnabled(bIsConnected);
+}
+
+void MainWindow::SerialPortInfoInit()
+{
+    ui->cbSerialPortName->clear();
+    //读取串口信息
+    foreach (const QSerialPortInfo &iInfo, QSerialPortInfo::availablePorts())
+    {
+        QVariant iVar;
+        iVar.setValue(iInfo);
+        ui->cbSerialPortName->addItem(iInfo.portName(), iVar);
+    }
 }
 
 void MainWindow::SerialPortConfigInit()
