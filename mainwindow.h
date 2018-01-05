@@ -11,7 +11,6 @@
 #include "chart/view.h"
 #include "protocol/protocol.h"
 #include "combobox/combobox_with_refresher.h"
-#define     CALIBERATION_VALIDATOR_REG_EXP  "10|([0-9]{0,1}[\\.][0-9]{1,7})"
 
 namespace Ui {
 class MainWindow;

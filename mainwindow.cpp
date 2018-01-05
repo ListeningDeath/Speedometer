@@ -11,10 +11,11 @@
 #define     DEFAULT_STOPBITS                "1"
 #define     DEFAULT_PARITY                  "None"
 #define     DEFAULT_FLOWCONTROL             "None"
+#define     CALIBERATION_VALIDATOR_REG_EXP  "10|([0-9]{0,1}[\\.][0-9]{1,7})"
 
 Q_DECLARE_METATYPE(QSerialPortInfo)
 
-QRegExp g_CaliberationValidatorRegExp("10|([0-9]{0,1}[\\.][0-9]{1,7})");
+QRegExp g_CaliberationValidatorRegExp(CALIBERATION_VALIDATOR_REG_EXP);
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,9 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags((this->windowFlags()&~Qt::WindowMinMaxButtonsHint)|Qt::WindowMinimizeButtonHint);
     setFixedSize(width(), height());
-
-//    connect(ui->cbSerialPortName, &ComboBoxWithRefresher::popupShow,
-//            this, &MainWindow::on_cbSerialPortName_popupShow);
     connect(this, &MainWindow::GetProtocol, this, &MainWindow::ProtocolDeal);
 
     //初始化
