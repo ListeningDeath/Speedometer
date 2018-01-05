@@ -41,6 +41,7 @@ private:
     QByteArray m_gReceiver;
     QByteArray m_gProtocol;
     QMutex m_iReceiverMutex;
+    QMutex m_iWriteMutex;
     QList<QPointF> m_points;
     void SetState(bool);
     void SerialPortInfoInit();

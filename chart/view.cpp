@@ -61,9 +61,11 @@ View::View(QWidget *parent)
     QValueAxis *axisY = new QValueAxis(m_chart);
     axisX->setRange(0, 20000);
     axisX->setTitleText("压力/Pa");
+    axisX->setLabelFormat("%.2f");
     axisX->setReverse();
     axisY->setRange(1000, 2000);
     axisY->setTitleText("声速/(m/s)");
+    axisY->setLabelFormat("%.2f");
 
     m_chart->addAxis(axisX, Qt::AlignLeft);
     m_chart->addAxis(axisY, Qt::AlignTop);

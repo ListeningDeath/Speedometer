@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui    serialport    charts
+QT       += core    gui    serialport    charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,25 +25,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
     protocol/protocol.cpp\
     protocol/interaction.cpp\
     protocol/information.cpp\
     chart/callout.cpp \
     chart/view.cpp \
-    combobox/combobox_with_refresher.cpp
+    combobox/combobox_with_refresher.cpp \
+    main_window.cpp
 
 HEADERS += \
-        mainwindow.h \
     protocol/protocol.h\
     protocol/interaction.h\
     protocol/information.h\
     chart/callout.h \
     chart/view.h \
-    combobox/combobox_with_refresher.h
+    combobox/combobox_with_refresher.h \
+    main_window.h
 
 FORMS += \
-        mainwindow.ui
+    main_window.ui
 
 RESOURCES += \
     icon.qrc

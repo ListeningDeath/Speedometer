@@ -1,7 +1,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QQueue>
-#include "mainwindow.h"
+#include "main_window.h"
 #include "ui_mainwindow.h"
 #include "protocol/interaction.h"
 #include "protocol/information.h"
@@ -199,8 +199,10 @@ void MainWindow::WriteCali(float soundSpeed,
 
 void MainWindow::ReadProtocol()
 {
+//    qDebug() << m_gReceiver;
     m_iReceiverMutex.lock();
     m_gReceiver.append(m_pSerialPort->readAll());
+    m_pSerialPort->waitForBytesWritten();
     int nAbandonLen = m_gReceiver.size() - MAX_RECEIVER_BYTE_COUNT;
     if(nAbandonLen > 0)
     {
@@ -258,7 +260,10 @@ int MainWindow::FindFrameOf(bool bIsStart, int *pnProtocolType)
 
 void MainWindow::SendProtocol(Protocol *pData)
 {
+    m_iWriteMutex.lock();
     m_pSerialPort->write(pData->GetQByteArray());
+    m_pSerialPort->waitForBytesWritten();
+    m_iWriteMutex.unlock();
 }
 
 void MainWindow::ProtocolDeal(int nProtocolType)
