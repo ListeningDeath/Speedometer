@@ -30,7 +30,7 @@
     <property name="title">
      <string>串口配置</string>
     </property>
-    <widget class="QComboBox" name="cbSerialPortName">
+    <widget class="ComboBoxWithRefresher" name="cbSerialPortName">
      <property name="geometry">
       <rect>
        <x>100</x>
@@ -758,6 +758,11 @@
    <class>View</class>
    <extends>QGraphicsView</extends>
    <header>chart/view.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBoxWithRefresher</class>
+   <extends>QComboBox</extends>
+   <header>combobox\combobox_with_refresher.h</header>
   </customwidget>
  </customwidgets>
  <resources>

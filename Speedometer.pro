@@ -30,7 +30,8 @@ SOURCES += \
     protocol/interaction.cpp\
     protocol/information.cpp\
     chart/callout.cpp \
-    chart/view.cpp
+    chart/view.cpp \
+    combobox/combobox_with_refresher.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -38,7 +39,8 @@ HEADERS += \
     protocol/interaction.h\
     protocol/information.h\
     chart/callout.h \
-    chart/view.h
+    chart/view.h \
+    combobox/combobox_with_refresher.h
 
 FORMS += \
         mainwindow.ui

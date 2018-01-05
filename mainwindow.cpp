@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowFlags((this->windowFlags()&~Qt::WindowMinMaxButtonsHint)|Qt::WindowMinimizeButtonHint);
     setFixedSize(width(), height());
 
+//    connect(ui->cbSerialPortName, &ComboBoxWithRefresher::popupShow,
+//            this, &MainWindow::on_cbSerialPortName_popupShow);
     connect(this, &MainWindow::GetProtocol, this, &MainWindow::ProtocolDeal);
 
     //初始化
@@ -351,6 +353,11 @@ void MainWindow::on_btnCaliReset_clicked()
 void MainWindow::on_btnCaliRefresh_clicked()
 {
     ReadCali();
+}
+
+void MainWindow::on_cbSerialPortName_popupShow()
+{
+    SerialPortInfoInit();
 }
 
 void MainWindow::on_cbSerialPortBaudRate_currentIndexChanged(int index)

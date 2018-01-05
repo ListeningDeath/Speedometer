@@ -52,7 +52,7 @@ class View: public QGraphicsView
     Q_OBJECT
 
 public:
-    View(QWidget *parent = 0);
+    View(QWidget *parent = nullptr);
     QLineSeries *series();
 
 protected:

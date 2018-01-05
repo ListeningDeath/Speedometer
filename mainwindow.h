@@ -10,6 +10,7 @@
 #include <QMUtex>
 #include "chart/view.h"
 #include "protocol/protocol.h"
+#include "combobox/combobox_with_refresher.h"
 #define     CALIBERATION_VALIDATOR_REG_EXP  "10|([0-9]{0,1}[\\.][0-9]{1,7})"
 
 namespace Ui {
@@ -62,7 +63,7 @@ private slots:
     void on_btnCaliVerify_clicked();
     void on_btnCaliReset_clicked();
     void on_btnCaliRefresh_clicked();
-
+    void on_cbSerialPortName_popupShow();
     void on_cbSerialPortBaudRate_currentIndexChanged(int index);
 
 signals:
