@@ -5,10 +5,12 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QIntValidator>
+#include <QDoubleValidator>
 #include <QList>
 #include <QMUtex>
 #include "chart/view.h"
 #include "protocol/protocol.h"
+#define     CALIBERATION_VALIDATOR_REG_EXP  "10|([0-9]{0,1}[\\.][0-9]{1,7})"
 
 namespace Ui {
 class MainWindow;
@@ -25,7 +27,17 @@ public:
 private:
     Ui::MainWindow *ui;
     QSerialPort *m_pSerialPort;
-    QIntValidator *m_intValidator;
+    QIntValidator *m_pCustomSerialPortBaudRate;
+    QRegExp *m_pCaliberationValidatorRegExp;
+    QRegExpValidator *m_pSoundSpeedCali;
+    QRegExpValidator *m_pTemperatureCali;
+    QRegExpValidator *m_pPressureCali;
+    QRegExpValidator *m_pQuatern1Cali;
+    QRegExpValidator *m_pQuatern2Cali;
+    QRegExpValidator *m_pQuatern3Cali;
+    QRegExpValidator *m_pQuatern4Cali;
+    QRegExpValidator *m_pVerticalSpeedCali;
+    QRegExpValidator *m_pVoltageCali;
     QByteArray m_gReceiver;
     QByteArray m_gProtocol;
     QMutex m_iReceiverMutex;
@@ -33,6 +45,7 @@ private:
     void SetState(bool);
     void SerialPortInfoInit();
     void SerialPortConfigInit();
+    void CalibrationInit();
     void ChartInit();
     void PrintCaliText(Protocol*);
     void PrintDataText(Protocol*);

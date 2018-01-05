@@ -5,20 +5,31 @@
 #include "ui_mainwindow.h"
 #include "protocol/interaction.h"
 #include "protocol/information.h"
-#define MAX_RECEIVER_BYTE_COUNT 64      // 最大存储字节数
-#define DEFAULT_BAUDRATE        "2400"
-#define DEFAULT_DATABITS        "8"
-#define DEFAULT_STOPBITS        "1"
-#define DEFAULT_PARITY          "None"
-#define DEFAULT_FLOWCONTROL     "None"
+#define     MAX_RECEIVER_BYTE_COUNT         64      // 最大存储字节数
+#define     DEFAULT_BAUDRATE                "2400"
+#define     DEFAULT_DATABITS                "8"
+#define     DEFAULT_STOPBITS                "1"
+#define     DEFAULT_PARITY                  "None"
+#define     DEFAULT_FLOWCONTROL             "None"
 
 Q_DECLARE_METATYPE(QSerialPortInfo)
+
+QRegExp g_CaliberationValidatorRegExp("10|([0-9]{0,1}[\\.][0-9]{1,7})");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_pSerialPort(new QSerialPort(this)),
-    m_intValidator(new QIntValidator(0, 4000000, this))
+    m_pCustomSerialPortBaudRate(new QIntValidator(0, 4000000, this)),
+    m_pSoundSpeedCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
+    m_pTemperatureCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
+    m_pPressureCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
+    m_pQuatern1Cali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
+    m_pQuatern2Cali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
+    m_pQuatern3Cali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
+    m_pQuatern4Cali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
+    m_pVerticalSpeedCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
+    m_pVoltageCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this))
 {
     ui->setupUi(this);
     setWindowFlags((this->windowFlags()&~Qt::WindowMinMaxButtonsHint)|Qt::WindowMinimizeButtonHint);
@@ -28,8 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //初始化
     SerialPortInfoInit();
-    SerialPortInfoInit();
     SerialPortConfigInit();
+    CalibrationInit();
     ChartInit();
     SetState(false);
 }
@@ -95,6 +106,19 @@ void MainWindow::SerialPortConfigInit()
     ui->cbSerialPortFlowControl->addItem(QString("Hardware"), QSerialPort::HardwareControl);
     ui->cbSerialPortFlowControl->addItem(QString("Software"), QSerialPort::SoftwareControl);
     ui->cbSerialPortFlowControl->setCurrentText(DEFAULT_FLOWCONTROL);
+}
+
+void MainWindow::CalibrationInit()
+{
+    ui->txtCaliSoundSpeed->setValidator(m_pSoundSpeedCali);
+    ui->txtCaliTemperature->setValidator(m_pTemperatureCali);
+    ui->txtCaliPressure->setValidator(m_pPressureCali);
+    ui->txtCaliQuat1->setValidator(m_pQuatern1Cali);
+    ui->txtCaliQuat2->setValidator(m_pQuatern2Cali);
+    ui->txtCaliQuat3->setValidator(m_pQuatern3Cali);
+    ui->txtCaliQuat4->setValidator(m_pQuatern4Cali);
+    ui->txtCaliVertSpeed->setValidator(m_pVerticalSpeedCali);
+    ui->txtCaliVoltage->setValidator(m_pVoltageCali);
 }
 
 void MainWindow::ChartInit()
@@ -336,7 +360,7 @@ void MainWindow::on_cbSerialPortBaudRate_currentIndexChanged(int index)
         ui->cbSerialPortBaudRate->setEditable(true);
         ui->cbSerialPortBaudRate->clearEditText();
         QLineEdit *pEdit = ui->cbSerialPortBaudRate->lineEdit();
-        pEdit->setValidator(m_intValidator);
+        pEdit->setValidator(m_pCustomSerialPortBaudRate);
     }
     else
     {
