@@ -15,22 +15,21 @@
 
 Q_DECLARE_METATYPE(QSerialPortInfo)
 
-QRegExp g_CaliberationValidatorRegExp(CALIBERATION_VALIDATOR_REG_EXP);
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_pSerialPort(new QSerialPort(this)),
     m_pCustomSerialPortBaudRate(new QIntValidator(0, 4000000, this)),
-    m_pSoundSpeedCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
-    m_pTemperatureCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
-    m_pPressureCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
-    m_pQuatern1Cali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
-    m_pQuatern2Cali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
-    m_pQuatern3Cali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
-    m_pQuatern4Cali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
-    m_pVerticalSpeedCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this)),
-    m_pVoltageCali(new QRegExpValidator(g_CaliberationValidatorRegExp, this))
+    m_CaliberationValidatorRegExp(CALIBERATION_VALIDATOR_REG_EXP),
+    m_pSoundSpeedCali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
+    m_pTemperatureCali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
+    m_pPressureCali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
+    m_pQuatern1Cali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
+    m_pQuatern2Cali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
+    m_pQuatern3Cali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
+    m_pQuatern4Cali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
+    m_pVerticalSpeedCali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
+    m_pVoltageCali(new QRegExpValidator(m_CaliberationValidatorRegExp, this))
 {
     ui->setupUi(this);
     setWindowFlags((this->windowFlags()&~Qt::WindowMinMaxButtonsHint)|Qt::WindowMinimizeButtonHint);

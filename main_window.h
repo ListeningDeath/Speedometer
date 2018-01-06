@@ -28,7 +28,7 @@ private:
     Ui::MainWindow *ui;
     QSerialPort *m_pSerialPort;
     QIntValidator *m_pCustomSerialPortBaudRate;
-    QRegExp *m_pCaliberationValidatorRegExp;
+    QRegExp m_CaliberationValidatorRegExp;
     QRegExpValidator *m_pSoundSpeedCali;
     QRegExpValidator *m_pTemperatureCali;
     QRegExpValidator *m_pPressureCali;
