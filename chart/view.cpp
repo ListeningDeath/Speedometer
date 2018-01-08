@@ -59,8 +59,8 @@ View::View(QWidget *parent)
     // 坐标轴初始化
     QValueAxis *axisX = new QValueAxis(m_chart);
     QValueAxis *axisY = new QValueAxis(m_chart);
-    axisX->setRange(0, 20000);
-    axisX->setTitleText("压力/Pa");
+    axisX->setRange(0, 50);
+    axisX->setTitleText("温度/℃");
     axisX->setLabelFormat("%.2f");
     axisX->setReverse();
     axisY->setRange(1000, 2000);
@@ -82,7 +82,7 @@ View::View(QWidget *parent)
     m_coordX->setText("声速: ");
     m_coordY = new QGraphicsSimpleTextItem(m_chart);
     m_coordY->setPos(m_chart->size().width()/2 + 50, m_chart->size().height());
-    m_coordY->setText("深度: ");
+    m_coordY->setText("温度: ");
 
     connect(m_series, &QLineSeries::clicked, this, &View::keepCallout);
     connect(m_series, &QLineSeries::hovered, this, &View::tooltip);
@@ -115,7 +115,7 @@ void View::mouseMoveEvent(QMouseEvent *event)
     qreal cur_x = event->pos().x();
     qreal cur_y = event->pos().y();
     m_coordX->setText(QString("声速: %1 m/s").arg(m_chart->mapToValue(event->pos()).x()));
-    m_coordY->setText(QString("深度: %1 m").arg(m_chart->mapToValue(event->pos()).y()));
+    m_coordY->setText(QString("温度: %1 ℃").arg(m_chart->mapToValue(event->pos()).y()));
     QGraphicsView::mouseMoveEvent(event);
     if(event->buttons() & Qt::RightButton)
     {
@@ -179,7 +179,7 @@ void View::tooltip(QPointF point, bool state)
         connect(m_tooltip, &Callout::calloutPressed, this, &View::pressCallout);
     }
     if (state) {
-        m_tooltip->setText(QString("声速: %1 m/s \n深度: %2 m").arg(point.x()).arg(point.y()));
+        m_tooltip->setText(QString("声速: %1 m/s \n温度: %2 ℃").arg(point.x()).arg(point.y()));
         m_tooltip->setAnchor(point);
         m_tooltip->setZValue(11);
         m_tooltip->updateGeometry();

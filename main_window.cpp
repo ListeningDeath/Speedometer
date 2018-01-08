@@ -156,7 +156,7 @@ void MainWindow::PrintDataText(Protocol *pData)
 
 void MainWindow::PrintPoint(Protocol *pData)
 {
-    QPointF point(pData->GetSoundSpeedFrame(), pData->GetPressureFrame());
+    QPointF point(pData->GetSoundSpeedFrame(), pData->GetTemperatureFrame());
     m_points << point;
     *ui->chartView->series() << point;
 }
