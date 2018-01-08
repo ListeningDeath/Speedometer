@@ -1,6 +1,6 @@
 #include <QMessageBox>
 #include <QDebug>
-#include <QQueue>
+#include <QThread>
 #include "main_window.h"
 #include "ui_main_window.h"
 #include "protocol/interaction.h"
@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_pSerialPort(new QSerialPort(this)),
+    m_pCaliDelayer(new QTimer(this)),
     m_pCustomSerialPortBaudRate(new QIntValidator(0, 4000000, this)),
     m_CaliberationValidatorRegExp(CALIBERATION_VALIDATOR_REG_EXP),
     m_pSoundSpeedCali(new QRegExpValidator(m_CaliberationValidatorRegExp, this)),
@@ -35,8 +36,11 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowFlags((this->windowFlags()&~Qt::WindowMinMaxButtonsHint)|Qt::WindowMinimizeButtonHint);
     setFixedSize(width(), height());
     connect(this, &MainWindow::GetProtocol, this, &MainWindow::ProtocolDeal);
+    connect(m_pCaliDelayer, &QTimer::timeout, this, &MainWindow::CaliberationOperationDelay);
 
     //初始化
+    m_pCaliDelayer->setInterval(1000);
+    m_pCaliDelayer->stop();
     SerialPortInfoInit();
     SerialPortConfigInit();
     CalibrationInit();
@@ -345,16 +349,23 @@ void MainWindow::on_btnCaliVerify_clicked()
               ui->txtCaliQuat4->text().toFloat(),
               ui->txtCaliVertSpeed->text().toFloat(),
               ui->txtCaliVoltage->text().toFloat());
+    SetCaliberationEnable(false);
+    m_pCaliDelayer->start();
+
 }
 
 void MainWindow::on_btnCaliReset_clicked()
 {
     WriteCali(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+    SetCaliberationEnable(false);
+    m_pCaliDelayer->start();
 }
 
 void MainWindow::on_btnCaliRefresh_clicked()
 {
     ReadCali();
+    SetCaliberationEnable(false);
+    m_pCaliDelayer->start();
 }
 
 void MainWindow::on_cbSerialPortName_popupShow()
@@ -362,9 +373,9 @@ void MainWindow::on_cbSerialPortName_popupShow()
     SerialPortInfoInit();
 }
 
-void MainWindow::on_cbSerialPortBaudRate_currentIndexChanged(int index)
+void MainWindow::on_cbSerialPortBaudRate_currentIndexChanged(int nIndex)
 {
-    if(!ui->cbSerialPortBaudRate->itemData(index).isValid())
+    if(!ui->cbSerialPortBaudRate->itemData(nIndex).isValid())
     {
         ui->cbSerialPortBaudRate->setEditable(true);
         ui->cbSerialPortBaudRate->clearEditText();
@@ -375,4 +386,17 @@ void MainWindow::on_cbSerialPortBaudRate_currentIndexChanged(int index)
     {
         ui->cbSerialPortBaudRate->setEditable(false);
     }
+}
+
+void MainWindow::SetCaliberationEnable(bool bIsEnable)
+{
+    ui->btnCaliVerify->setEnabled(bIsEnable);
+    ui->btnCaliRefresh->setEnabled(bIsEnable);
+    ui->btnCaliReset->setEnabled(bIsEnable);
+}
+
+void MainWindow::CaliberationOperationDelay()
+{
+    SetCaliberationEnable(true);
+    m_pCaliDelayer->stop();
 }

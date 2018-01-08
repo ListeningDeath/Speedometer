@@ -8,6 +8,7 @@
 #include <QDoubleValidator>
 #include <QList>
 #include <QMUtex>
+#include <QTimer>
 #include "chart/view.h"
 #include "protocol/protocol.h"
 #include "combobox/combobox_with_refresher.h"
@@ -27,6 +28,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QSerialPort *m_pSerialPort;
+    QTimer *m_pCaliDelayer;
     QIntValidator *m_pCustomSerialPortBaudRate;
     QRegExp m_CaliberationValidatorRegExp;
     QRegExpValidator *m_pSoundSpeedCali;
@@ -56,6 +58,8 @@ private:
     int FindFrameOf(bool, int*);
     void ReadProtocol();
     void SendProtocol(Protocol*);
+    void SetCaliberationEnable(bool);
+    void CaliberationOperationDelay();
 
 private slots:
     void ProtocolDeal(int);
@@ -68,6 +72,7 @@ private slots:
 
 signals:
     void GetProtocol(int);
+
 };
 
 #endif // MAINWINDOW_H
