@@ -127,10 +127,10 @@ void MainWindow::CalibrationInit()
 void MainWindow::ChartInit()
 {
 //    // 测试用样点
-//    *ui->chartView->series() << QPointF(1300, 8000);
-//    *ui->chartView->series() << QPointF(1800, 9000);
-//    *ui->chartView->series() << QPointF(1200, 14000);
-//    *ui->chartView->series() << QPointF(1800, 18000);
+//    *ui->chartView->series() << QPointF(1300, 10.7941);
+//    *ui->chartView->series() << QPointF(1800, 12.42);
+//    *ui->chartView->series() << QPointF(1200, 19.426);
+//    *ui->chartView->series() << QPointF(1800, 45.2351);
 }
 
 void MainWindow::PrintCaliText(Protocol *pData)
@@ -160,7 +160,8 @@ void MainWindow::PrintDataText(Protocol *pData)
 
 void MainWindow::PrintPoint(Protocol *pData)
 {
-    QPointF point(pData->GetSoundSpeedFrame(), pData->GetTemperatureFrame());
+    float viewTemperature = (float)(round(pData->GetTemperatureFrame() * 10) / 10);
+    QPointF point(pData->GetSoundSpeedFrame(), viewTemperature);
     m_points << point;
     *ui->chartView->series() << point;
 }
@@ -205,7 +206,11 @@ void MainWindow::ReadProtocol()
 //    qDebug() << m_gReceiver;
     m_iReceiverMutex.lock();
     m_gReceiver.append(m_pSerialPort->readAll());
-    m_pSerialPort->waitForBytesWritten();
+//    if(!m_pSerialPort->waitForBytesWritten())
+//    {
+//        QMessageBox::critical(this, QString("错误"),
+//                              QString("接收协议时出现异常"));
+//    }
     int nAbandonLen = m_gReceiver.size() - MAX_RECEIVER_BYTE_COUNT;
     if(nAbandonLen > 0)
     {
@@ -265,7 +270,11 @@ void MainWindow::SendProtocol(Protocol *pData)
 {
     m_iWriteMutex.lock();
     m_pSerialPort->write(pData->GetQByteArray());
-    m_pSerialPort->waitForBytesWritten();
+    if(!m_pSerialPort->waitForBytesWritten())
+    {
+        QMessageBox::critical(this, QString("错误"),
+                              QString("发送协议时出现异常: %1").arg(pData->PrintDebug()));
+    }
     m_iWriteMutex.unlock();
 }
 

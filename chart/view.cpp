@@ -53,7 +53,7 @@ View::View(QWidget *parent)
     m_chart = new QChart;
     m_chart->legend()->hide();
     m_chart->setTitle("深度-声速");
-
+    m_chart->setTheme(QChart::ChartThemeDark);
     m_series = new QLineSeries(m_chart);
     m_chart->addSeries(m_series);
     // 坐标轴初始化
