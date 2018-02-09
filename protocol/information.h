@@ -1,6 +1,6 @@
 #ifndef INFORMATION_H
 #define INFORMATION_H
-#define INFORMATION_PROTOCOL_SIZE   38
+#define INFORMATION_PROTOCOL_SIZE   11
 
 #include "protocol.h"
 
@@ -8,8 +8,8 @@ class Information : public Protocol
 {
 public:
     static const int ProtocolSize = INFORMATION_PROTOCOL_SIZE;
-    static const BYTE2 StartFrame = 0xF00F;
-    static const BYTE2 EndFrame = 0x0FF0;
+    static const BYTE2 StartFrame = 0x4040;
+    static const BYTE2 EndFrame = 0x2424;
     Information(QObject *parent = nullptr);
 };
 

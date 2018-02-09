@@ -302,6 +302,7 @@ void MainWindow::ProtocolDeal(int nProtocolType)
     }
     else
     {
+        // 修改为获取@@和$$间的数据，转化成float，绘点
         pData = new Information(this);
         pData->SetData(m_gProtocol);
         // 校验CRC
