@@ -45,6 +45,8 @@ private:
     QMutex m_iReceiverMutex;
     QMutex m_iWriteMutex;
     QList<QPointF> m_points;
+    double m_time;
+    int m_time_count;
     void SetState(bool);
     void SerialPortInfoInit();
     void SerialPortConfigInit();

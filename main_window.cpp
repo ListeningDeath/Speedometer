@@ -126,6 +126,8 @@ void MainWindow::CalibrationInit()
 
 void MainWindow::ChartInit()
 {
+    m_time = 0.0;
+    m_time_count = 0;
 //    // 测试用样点
 //    *ui->chartView->series() << QPointF(1300, 10.7941);
 //    *ui->chartView->series() << QPointF(1800, 12.42);
@@ -160,10 +162,17 @@ void MainWindow::PrintDataText(Protocol *pData)
 
 void MainWindow::PrintPoint(Protocol *pData)
 {
-    float viewTemperature = (float)(round(pData->GetTemperatureFrame() * 10) / 10);
-    QPointF point(pData->GetSoundSpeedFrame(), viewTemperature);
-    m_points << point;
-    *ui->chartView->series() << point;
+//    if(m_time_count >= 100)
+//    {
+//        m_time_count = 0;
+//    }
+    if(1)
+    {
+        m_time += 300.0 / 1000 / 60;
+        QPointF point(pData->GetSoundSpeedFrame(), m_time);
+        m_points << point;
+        *ui->chartView->series() << point;
+    }
 }
 
 void MainWindow::ReadCali()
